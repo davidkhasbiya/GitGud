@@ -105,25 +105,23 @@ Everything happens in one workspace:
 ```mermaid
 flowchart LR
 
-User
+    User[Developer]
 
--->
+    Frontend["React + Vite"]
 
-React
+    Backend["Go Fiber API"]
 
--->
+    Database[("PostgreSQL")]
 
-Go Fiber API
+    AI["Google Gemini API"]
 
--->
+    User --> Frontend
 
-PostgreSQL
+    Frontend --> Backend
 
-Go Fiber API
+    Backend --> Database
 
--->
-
-Gemini API
+    Backend --> AI
 ```
 
 ---

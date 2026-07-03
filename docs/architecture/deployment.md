@@ -25,23 +25,13 @@ Google AI Studio
 ```mermaid
 flowchart LR
 
-User
+    User
 
--->
+    User --> Vercel
 
-Vercel
+    Vercel --> CloudRun["Google Cloud Run"]
 
--->
+    CloudRun --> PostgreSQL
 
-Cloud Run
-
--->
-
-PostgreSQL
-
-Cloud Run
-
--->
-
-Gemini
+    CloudRun --> Gemini
 ```

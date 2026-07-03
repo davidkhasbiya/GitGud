@@ -53,19 +53,19 @@ Sidebar
 ## Main Content
 
 ```mermaid
-graph TD
+flowchart LR
 
-Workspace
+    User
 
---> Generator
+    User --> Generate
 
-Generator --> Challenge
+    Generate --> Solve
 
-Challenge --> Answer
+    Solve --> Submit
 
-Answer --> Submit
+    Submit --> Feedback
 
-Submit --> Feedback
+    Feedback --> Progress
 ```
 
 ---
