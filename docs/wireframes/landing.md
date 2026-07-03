@@ -343,3 +343,97 @@ E --> F[Call To Action]
 
 F --> G[Footer]
 ```
+
+# Landing Page Flow
+
+## User Journey
+
+```mermaid
+flowchart TD
+
+Visitor[Visitor]
+
+Visitor --> Landing
+
+Landing --> ReadHero
+
+ReadHero --> ExploreFeatures
+
+ExploreFeatures --> ClickCTA
+
+ClickCTA --> Login
+
+Login --> Workspace
+```
+
+---
+
+## Landing Structure
+
+```mermaid
+graph TD
+
+Landing
+
+Landing --> Navbar
+
+Landing --> Hero
+
+Landing --> Technology
+
+Landing --> Features
+
+Landing --> Workflow
+
+Landing --> CTA
+
+Landing --> Footer
+```
+
+---
+
+## Hero Structure
+
+```mermaid
+graph LR
+
+Hero
+
+Hero --> Left
+
+Hero --> Right
+
+Left --> Headline
+
+Left --> Description
+
+Left --> CTA
+
+Right --> WorkspacePreview
+```
+
+---
+
+## Learning Workflow
+
+```mermaid
+flowchart LR
+
+ChooseTopic
+
+-->
+
+GenerateChallenge
+
+-->
+
+SolveChallenge
+
+-->
+
+ReceiveFeedback
+
+-->
+
+SaveProgress
+```
