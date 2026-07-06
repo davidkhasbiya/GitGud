@@ -5,6 +5,7 @@ import ThemeToggle from "../../ui/ThemeToggle";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
 import MobileMenu from "./MobileMenu";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     return (
@@ -34,13 +35,22 @@ export default function Navbar() {
 
                         <ThemeToggle />
 
-                        <Button variant="ghost">
-                            GitHub
+                        <Button
+                            onClick={() =>
+                                window.open(
+                                    "https://github.com/davidkhasbiya/GITGUD",
+                                    "_blank"
+                                )
+                            }
+                        >
+                            GitHub 
                         </Button>
 
-                        <Button>
-                            Sign In
-                        </Button>
+                        <Link to="/login">
+                            <Button>
+                                Sign In
+                            </Button>
+                        </Link>
 
                         <MobileMenu />
 

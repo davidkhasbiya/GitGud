@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../../ui/Button";
 
 export default function HeroContent() {
@@ -40,11 +41,20 @@ export default function HeroContent() {
             </p>
 
             <div className="mt-10 flex flex-wrap gap-4">
-                <Button>
-                    Start Practicing
-                </Button>
+                <Link to="/workspace">
+                    <Button>
+                        Start Practicing
+                    </Button>
+                </Link>
 
-                <Button variant="secondary">
+                <Button
+                    onClick={() =>
+                        window.open(
+                            "https://github.com/davidkhasbiya/GITGUD",
+                            "_blank"
+                        )
+                    }
+                >
                     GitHub Repository
                 </Button>
             </div>
