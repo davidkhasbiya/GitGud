@@ -1,9 +1,12 @@
+import AuthLayout from "../../layouts/AuthLayout";
+import LoginHero from "../Login/LoginHero";
+import RegisterForm from "./RegisterForm";
+
 export default function RegisterPage() {
     return (
-        <main className="flex min-h-screen items-center justify-center">
-            <h1 className="text-4xl font-bold">
-                Register Page
-            </h1>
-        </main>
+        <AuthLayout>
+            <LoginHero />
+            <RegisterForm />
+        </AuthLayout>
     );
 }
