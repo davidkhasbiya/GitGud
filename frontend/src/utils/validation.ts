@@ -35,3 +35,14 @@ export function validateConfirmPassword(
 
     return "";
 }
+export function validateName(name: string) {
+    if (!name.trim()) {
+        return "Full name is required";
+    }
+
+    if (name.trim().length < 3) {
+        return "Full name must be at least 3 characters";
+    }
+
+    return "";
+}

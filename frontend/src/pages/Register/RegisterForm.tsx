@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, User } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { toast } from "sonner";
 import Button from "../../components/ui/Button";
 import Divider from "../../components/auth/Divider";
 import Input from "../../components/auth/Input";
@@ -9,6 +9,7 @@ import PasswordInput from "../../components/auth/PasswordInput";
 import SocialButton from "../../components/auth/SocialButton";
 
 import {
+    validateName,
     validateEmail,
     validatePassword,
     validateConfirmPassword,
@@ -19,36 +20,51 @@ export default function RegisterForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const [errors, setErrors] = useState({
+        name: "",
         email: "",
         password: "",
         confirmPassword: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const nameError = validateName(name);
         const emailError = validateEmail(email);
         const passwordError = validatePassword(password);
+
         const confirmError = validateConfirmPassword(
             password,
             confirmPassword
         );
 
         setErrors({
+            name: nameError,
             email: emailError,
             password: passwordError,
             confirmPassword: confirmError,
         });
 
-        if (emailError || passwordError || confirmError) return;
+        if (
+            nameError ||
+            emailError ||
+            passwordError ||
+            confirmError
+        ) {
+            toast.error("Please fix the highlighted fields.");
+            return;
+        }
 
-        console.log({
-            name,
-            email,
-            password,
-        });
+        setLoading(true);
+
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        toast.success("Account created successfully!");
+
+        setLoading(false);
     };
 
     return (
@@ -70,9 +86,17 @@ export default function RegisterForm() {
 
                     <Input
                         label="Full Name"
-                        placeholder="Ahmad David"
+                        placeholder="John Doe"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => {
+                            setName(e.target.value);
+
+                            setErrors((prev) => ({
+                                ...prev,
+                                email: "",
+                            }));
+                        }}
+                        error={errors.name}
                         icon={<User size={18} />}
                     />
 
@@ -81,21 +105,42 @@ export default function RegisterForm() {
                         type="email"
                         placeholder="you@example.com"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) => {
+                            setEmail(e.target.value);
+
+                            setErrors((prev) => ({
+                                ...prev,
+                                email: "",
+                            }));
+                        }}
                         error={errors.email}
                         icon={<Mail size={18} />}
                     />
 
                     <PasswordInput
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+
+                            setErrors((prev) => ({
+                                ...prev,
+                                email: "",
+                            }));
+                        }}
                         error={errors.password}
                     />
 
                     <PasswordInput
                         label="Confirm Password"
                         value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        onChange={(e) => {
+                            setConfirmPassword(e.target.value);
+
+                            setErrors((prev) => ({
+                                ...prev,
+                                email: "",
+                            }));
+                        }}
                         error={errors.confirmPassword}
                     />
 
@@ -105,10 +150,15 @@ export default function RegisterForm() {
                         I agree to the Terms & Privacy Policy
                     </label>
 
-                    <Button className="w-full">
-                        Create Account
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        loading={loading}
+                    >
+                        {loading
+                            ? "Creating Account..."
+                            : "Create Account"}
                     </Button>
-
                 </form>
 
                 <div className="my-8">

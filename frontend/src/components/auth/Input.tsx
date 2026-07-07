@@ -30,11 +30,14 @@ export default function Input({
                 <input
                     {...props}
                     className={cn(
-                        "w-full rounded-xl border bg-white py-3 pr-4 outline-none transition dark:bg-zinc-900",
+                        "w-full rounded-xl border py-3 pr-4 outline-none transition",
+                        "border-zinc-700 bg-zinc-900 text-white",
+                        "placeholder:text-zinc-500",
+                        "focus:border-violet-500",
                         icon ? "pl-11" : "px-4",
                         error
                             ? "border-red-500 focus:border-red-500"
-                            : "border-zinc-300 focus:border-violet-500 dark:border-zinc-700",
+                            : "",
                         className
                     )}
                 />

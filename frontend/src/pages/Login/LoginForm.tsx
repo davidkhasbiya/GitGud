@@ -1,6 +1,6 @@
 import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { toast } from "sonner";
 import Button from "../../components/ui/Button";
 import Divider from "../../components/auth/Divider";
 import Input from "../../components/auth/Input";
@@ -12,13 +12,14 @@ import { useState } from "react";
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const [errors, setErrors] = useState({
         email: "",
         password: "",
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const emailError = validateEmail(email);
@@ -29,9 +30,18 @@ export default function LoginForm() {
             password: passwordError,
         });
 
-        if (emailError || passwordError) return;
+        if (emailError || passwordError) {
+            toast.error("Please fix the highlighted fields.");
+            return;
+        }
 
-        console.log("Login Success");
+        setLoading(true);
+
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        toast.success("Login successful!");
+
+        setLoading(false);
     };
 
 
@@ -88,8 +98,12 @@ export default function LoginForm() {
 
                     </div>
 
-                    <Button className="w-full">
-                        Sign In
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        loading={loading}
+                    >
+                        {loading ? "Signing In..." : "Sign In"}
                     </Button>
 
                 </form>

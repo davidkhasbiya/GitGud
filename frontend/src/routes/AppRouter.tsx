@@ -7,6 +7,7 @@ import WorkspacePage from "../pages/Workspace/WorkspacePage";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import ProgressPage from "../pages/Progress/ProgressPage";
 import SettingsPage from "../pages/Settings/SettingsPage";
+import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 
 export default function AppRouter() {
   return (
@@ -26,6 +27,11 @@ export default function AppRouter() {
         <Route
           path="/register"
           element={<RegisterPage />}
+        />
+
+        <Route
+          path="/forgot-password"
+          element={<ForgotPasswordPage />}
         />
 
         <Route
