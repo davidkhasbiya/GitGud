@@ -9,9 +9,6 @@ import Input from "../../components/auth/Input";
 import { validateEmail } from "../../utils/validation";
 
 export default function ForgotPasswordForm() {
-
-    const navigate = useNavigate();
-
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
