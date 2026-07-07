@@ -8,11 +8,12 @@ import {
     LogOut,
 } from "lucide-react";
 
-import Logo from "../layout/Navbar/Logo";
-import SidebarItem from "./SidebarItem";
-import { useDashboard } from "../../contexts/DashboardContext";
-import { cn } from "../../lib/cn";
+import Logo from "../../layout/Navbar/Logo";
+import SidebarItem from "../layout/SidebarItem";
+import { useDashboard } from "../../../contexts/DashboardContext";
+import { cn } from "../../../lib/cn";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
     const {
@@ -53,7 +54,21 @@ export default function Sidebar() {
             to: "/settings",
             icon: Settings,
         },
+
     ];
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        const confirmed = window.confirm(
+            "Are you sure you want to logout?"
+        );
+
+        if (!confirmed) return;
+
+        localStorage.removeItem("isLoggedIn");
+        navigate("/login");
+    };
 
     return (
         <>
@@ -136,13 +151,17 @@ export default function Sidebar() {
                 </nav>
 
                 <div className="border-t border-zinc-800 p-5">
-                    <SidebarItem
-                        to="/login"
-                        icon={<LogOut size={20} />}
-                        collapsed={collapsed}
+                    <button
+                        onClick={logout}
+                        className={cn(
+                            "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-red-500/10 hover:text-red-400",
+                            collapsed && "justify-center px-0"
+                        )}
                     >
-                        Logout
-                    </SidebarItem>
+                        <LogOut size={20} />
+
+                        {!collapsed && <span>Logout</span>}
+                    </button>
                 </div>
             </aside>
             {mobileOpen && (

@@ -8,11 +8,13 @@ import PasswordInput from "../../components/auth/PasswordInput";
 import SocialButton from "../../components/auth/SocialButton";
 import { validateEmail, validatePassword } from "../../utils/validation";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({
         email: "",
@@ -30,10 +32,9 @@ export default function LoginForm() {
             password: passwordError,
         });
 
-        if (emailError || passwordError) {
-            toast.error("Please fix the highlighted fields.");
-            return;
-        }
+        if (emailError || passwordError) return;
+        localStorage.setItem("isLoggedIn", "true");
+        navigate("/dashboard");
 
         setLoading(true);
 

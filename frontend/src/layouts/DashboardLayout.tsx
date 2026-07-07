@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 
-import Sidebar from "../components/dashboard/Sidebar";
-import Topbar from "../components/dashboard/Topbar";
+import Sidebar from "../components/dashboard/layout/Sidebar";
+import Topbar from "../components/dashboard/layout/Topbar";
 
 import { DashboardProvider, useDashboard } from "../contexts/DashboardContext";
 import { cn } from "../lib/cn";

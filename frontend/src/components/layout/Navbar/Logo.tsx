@@ -1,8 +1,4 @@
 import { Code2 } from "lucide-react";
-import {
-    PanelLeftClose,
-    PanelLeftOpen
-} from "lucide-react";
 
 interface LogoProps {
     collapsed?: boolean;

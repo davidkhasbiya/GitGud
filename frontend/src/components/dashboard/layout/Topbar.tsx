@@ -4,7 +4,7 @@ import {
     Search,
     Menu,
 } from "lucide-react";
-import { useDashboard } from "../../contexts/DashboardContext";
+import { useDashboard } from "../../../contexts/DashboardContext";
 
 export default function Topbar() {
     const {

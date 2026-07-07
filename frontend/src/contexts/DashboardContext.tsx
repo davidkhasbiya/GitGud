@@ -5,6 +5,8 @@ import {
     type ReactNode,
 } from "react";
 
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
 interface DashboardContextType {
     collapsed: boolean;
     setCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,8 +23,14 @@ export function DashboardProvider({
 }: {
     children: ReactNode;
 }) {
-    const [collapsed, setCollapsed] = useState(false);
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const [collapsed, setCollapsed] =
+        useLocalStorage(
+            "sidebar-collapsed",
+            false
+        );
+
+    const [mobileOpen, setMobileOpen] =
+        useState(false);
 
     return (
         <DashboardContext.Provider
@@ -42,7 +50,9 @@ export function useDashboard() {
     const context = useContext(DashboardContext);
 
     if (!context)
-        throw new Error("useDashboard must be used inside DashboardProvider");
+        throw new Error(
+            "useDashboard must be used inside DashboardProvider"
+        );
 
     return context;
 }
