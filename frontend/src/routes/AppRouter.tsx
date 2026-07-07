@@ -8,6 +8,9 @@ import ProfilePage from "../pages/Profile/ProfilePage";
 import ProgressPage from "../pages/Progress/ProgressPage";
 import SettingsPage from "../pages/Settings/SettingsPage";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
+import NotFoundPage from "../pages/NotFound/NotFoundPage";
+import DashboardLayout from "../layouts/DashboardLayout";
+import DashboardPage from "../pages/Dashboard/DashboardPage";
 
 export default function AppRouter() {
   return (
@@ -35,24 +38,31 @@ export default function AppRouter() {
         />
 
         <Route
-          path="/workspace"
-          element={<WorkspacePage />}
+          path="*"
+          element={<NotFoundPage />}
         />
 
-        <Route
-          path="/profile"
-          element={<ProfilePage />}
-        />
+        <Route element={<DashboardLayout />}>
+          <Route
+            path="/dashboard"
+            element={<DashboardPage />}
+          />
 
-        <Route
-          path="/progress"
-          element={<ProgressPage />}
-        />
+          <Route
+            path="/progress"
+            element={<ProgressPage />}
+          />
 
-        <Route
-          path="/settings"
-          element={<SettingsPage />}
-        />
+          <Route
+            path="/profile"
+            element={<ProfilePage />}
+          />
+
+          <Route
+            path="/settings"
+            element={<SettingsPage />}
+          />
+        </Route>
 
       </Routes>
     </BrowserRouter>
