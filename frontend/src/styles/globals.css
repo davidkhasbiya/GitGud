@@ -11,3 +11,39 @@ body {
 .dark body {
     @apply bg-zinc-950 text-white;
 }
+
+@keyframes badge-pop {
+    0% {
+        transform: scale(.9);
+        opacity: .6;
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes badge-glow {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 0px rgba(168, 85, 247, .2));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 14px rgba(168, 85, 247, .7));
+    }
+}
+
+.animate-badge-pop {
+    animation: badge-pop .6s ease;
+}
+
+.animate-badge-glow {
+    animation: badge-glow 3s ease-in-out infinite;
+}

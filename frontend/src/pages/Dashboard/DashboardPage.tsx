@@ -18,6 +18,10 @@ import AIRecommendation from "../../components/dashboard/ai/AIRecommendation";
 import {
     recommendation,
 } from "../../data/dashboard";
+import AchievementShowcase from "../../components/dashboard/achievement/AchievementShowcase";
+import {
+    achievements,
+} from "../../data/dashboard";
 
 export default function DashboardPage() {
     return (
@@ -36,6 +40,9 @@ export default function DashboardPage() {
                 />
                 <AIRecommendation
                     recommendation={recommendation}
+                />
+                <AchievementShowcase
+                    achievements={achievements}
                 />
             </div>
         </>
