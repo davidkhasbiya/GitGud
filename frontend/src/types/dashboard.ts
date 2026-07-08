@@ -68,3 +68,28 @@ export interface Achievement {
     earnedAt: string;
     rarity: "Common" | "Rare" | "Epic" | "Legendary";
 }
+
+export interface LeaderboardUser {
+    id: string;
+    name: string;
+    avatar: string;
+    xp: number;
+    rank: number;
+    isCurrentUser: boolean;
+    movement: "up" | "down" | "same";
+}
+
+export interface Leaderboard {
+    league: string;
+    seasonEnds: string;
+    currentRank: number;
+    xpToNextRank: number;
+    users: LeaderboardUser[];
+}
+
+export interface HeroStats {
+    streak: number;
+    xp: number;
+    gems: number;
+    shield: number;
+}

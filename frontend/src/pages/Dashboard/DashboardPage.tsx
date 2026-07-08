@@ -13,15 +13,13 @@ import {
     skills,
     mission,
     conversations,
-} from "../../data/dashboard";
-import AIRecommendation from "../../components/dashboard/ai/AIRecommendation";
-import {
+    achievements,
+    leaderboard,
     recommendation,
 } from "../../data/dashboard";
+import AIRecommendation from "../../components/dashboard/ai/AIRecommendation";
 import AchievementShowcase from "../../components/dashboard/achievement/AchievementShowcase";
-import {
-    achievements,
-} from "../../data/dashboard";
+import LeaderboardPreview from "../../components/dashboard/leaderboard/LeaderboardPreview";
 
 export default function DashboardPage() {
     return (
@@ -43,6 +41,9 @@ export default function DashboardPage() {
                 />
                 <AchievementShowcase
                     achievements={achievements}
+                />
+                <LeaderboardPreview
+                    leaderboard={leaderboard}
                 />
             </div>
         </>

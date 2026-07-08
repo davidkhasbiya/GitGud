@@ -4,6 +4,8 @@ import type {
     DailyMission,
     AIRecommendation,
     Achievement,
+    Leaderboard,
+    HeroStats,
 } from "../types/dashboard";
 
 export const skills: Skill[] = [
@@ -128,3 +130,76 @@ export const achievements: Achievement[] = [
     },
 
 ];
+
+export const leaderboard: Leaderboard = {
+
+    league: "Gold League",
+
+    seasonEnds: "2d 14h",
+
+    currentRank: 3,
+
+    xpToNextRank: 320,
+
+    users: [
+
+        {
+            id: "1",
+            name: "Alex",
+            avatar: "A",
+            xp: 5820,
+            rank: 1,
+            isCurrentUser: false,
+            movement: "same",
+        },
+
+        {
+            id: "2",
+            name: "Sarah",
+            avatar: "S",
+            xp: 5610,
+            rank: 2,
+            isCurrentUser: false,
+            movement: "up",
+        },
+
+        {
+            id: "3",
+            name: "Ahmad",
+            avatar: "A",
+            xp: 5480,
+            rank: 3,
+            isCurrentUser: true,
+            movement: "up",
+        },
+
+        {
+            id: "4",
+            name: "Kevin",
+            avatar: "K",
+            xp: 5200,
+            rank: 4,
+            isCurrentUser: false,
+            movement: "down",
+        },
+
+        {
+            id: "5",
+            name: "Rina",
+            avatar: "R",
+            xp: 5100,
+            rank: 5,
+            isCurrentUser: false,
+            movement: "same",
+        },
+
+    ],
+
+};
+
+export const heroStats: HeroStats = {
+    streak: 15,
+    xp: 18250,
+    gems: 42,
+    shield: 2,
+};
