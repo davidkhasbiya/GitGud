@@ -11,9 +11,9 @@ import DashboardPage from "../pages/Dashboard/DashboardPage";
 import ProgressPage from "../pages/Progress/ProgressPage";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import SettingsPage from "../pages/Settings/SettingsPage";
-import ChallengesPage from "../pages/challenges/ChallengesPage";
+import ChallengesPage from "../pages/Challenges/ChallengesPage";
 import ProtectedRoute from "./ProtectedRoute";
-import ChallengeDetailPage from "../pages/challenges/ChallengeDetailPage";
+import ChallengeDetailPage from "../pages/ChallengeDetail/ChallengeDetailPage";
 
 export default function AppRouter() {
   return (
