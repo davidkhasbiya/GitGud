@@ -10,6 +10,7 @@ import {
 import Button from "../../ui/Button";
 
 import type { AIRecommendation } from "../../../types/dashboard";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     recommendation: AIRecommendation;
@@ -36,6 +37,7 @@ export default function AIRecommendation({
             : recommendation.confidence >= 70
                 ? "from-violet-500 to-fuchsia-500"
                 : "from-yellow-400 to-orange-500";
+                const navigate = useNavigate();
     return (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 shadow-lg shadow-violet-500/5">
 
@@ -264,10 +266,10 @@ export default function AIRecommendation({
 
                     </div>
 
-                    <Button className="mt-8 w-full">
-
+                    <Button
+                        className="mt-8 w-full" onClick={() => navigate("/challenges")}
+                    >
                         Learn Now
-
                         <ArrowRight size={18} />
 
                     </Button>

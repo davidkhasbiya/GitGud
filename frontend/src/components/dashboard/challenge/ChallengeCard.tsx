@@ -4,10 +4,12 @@ import {
     Lock,
     ArrowRight,
 } from "lucide-react";
-
+import { useNavigate } from "react-router-dom";
 import Button from "../../ui/Button";
 
 interface Props {
+    id: string;
+
     title: string;
     difficulty: string;
     tech: string;
@@ -15,11 +17,11 @@ interface Props {
     duration: string;
 
     progress?: number;
-
     locked?: boolean;
 }
 
 export default function ChallengeCard({
+    id,
     title,
     difficulty,
     tech,
@@ -28,6 +30,12 @@ export default function ChallengeCard({
     progress,
     locked,
 }: Props) {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        if (locked) return;
+
+        navigate(`/challenges/${id}`);
+    };
     return (
         <div
             className="
@@ -113,6 +121,7 @@ export default function ChallengeCard({
             <Button
                 className="mt-6 w-full"
                 disabled={locked}
+                onClick={handleClick}
             >
                 {locked
                     ? "Locked"
@@ -126,9 +135,7 @@ export default function ChallengeCard({
                         className="ml-2"
                     />
                 )}
-
             </Button>
-
         </div>
     );
 }

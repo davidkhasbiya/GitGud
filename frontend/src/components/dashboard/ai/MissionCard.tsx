@@ -2,7 +2,7 @@ import { Clock3, Flame, Trophy } from "lucide-react";
 
 import Button from "../../ui/Button";
 import type { DailyMission } from "../../../types/dashboard";
-
+import { useNavigate } from "react-router-dom";
 
 interface MissionCardProps {
     mission: DailyMission;
@@ -11,6 +11,7 @@ interface MissionCardProps {
 export default function MissionCard({
     mission,
 }: MissionCardProps) {
+    const navigate = useNavigate();
     return (
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
 
@@ -68,7 +69,7 @@ export default function MissionCard({
             </div>
 
             <Button
-                className="mt-8 w-full"
+                className="mt-8 w-full" onClick={() => navigate("/challenges")}
             >
                 Start Mission
             </Button>

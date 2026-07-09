@@ -6,6 +6,7 @@ import {
     User,
     Settings,
     LogOut,
+    BookOpen,
 } from "lucide-react";
 
 import Logo from "../../layout/Navbar/Logo";
@@ -32,7 +33,7 @@ export default function Sidebar() {
         {
             label: "Challenges",
             to: "/challenges",
-            icon: Code2,
+            icon: BookOpen,
         },
         {
             label: "AI Mentor",
@@ -54,7 +55,6 @@ export default function Sidebar() {
             to: "/settings",
             icon: Settings,
         },
-
     ];
 
     const navigate = useNavigate();

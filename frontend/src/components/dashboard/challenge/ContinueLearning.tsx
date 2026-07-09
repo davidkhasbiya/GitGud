@@ -1,9 +1,9 @@
 import { ArrowRight, Clock3 } from "lucide-react";
 import Button from "../../ui/Button";
-
+import { useNavigate } from "react-router-dom";
 export default function ContinueLearning() {
     const progress = 62;
-
+    const navigate = useNavigate();
     return (
         <section
             className="
@@ -93,14 +93,11 @@ export default function ContinueLearning() {
 
                     <Button
                         className="
-                            flex
-                            items-center
-                            gap-2
-                            px-7
-                            py-3
-                        "
+                            w-full
+                        " onClick={() => navigate("/challenges")}
                     >
                         Continue
+
 
                         <ArrowRight size={18} />
 

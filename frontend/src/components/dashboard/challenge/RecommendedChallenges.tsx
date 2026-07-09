@@ -2,6 +2,7 @@ import ChallengeCard from "./ChallengeCard";
 
 const challenges = [
     {
+        id: "jwt-authentication",
         title: "JWT Authentication",
         difficulty: "Intermediate",
         tech: "Go Fiber • JWT • PostgreSQL",
@@ -10,6 +11,7 @@ const challenges = [
         progress: 70,
     },
     {
+        id: "docker-basics",
         title: "Docker Basics",
         difficulty: "Beginner",
         tech: "Docker",
@@ -17,6 +19,7 @@ const challenges = [
         duration: "30 min",
     },
     {
+        id: "redis-cache",
         title: "Redis Cache",
         difficulty: "Advanced",
         tech: "Redis • Go Fiber",
