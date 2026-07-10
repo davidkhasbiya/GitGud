@@ -1,7 +1,9 @@
+import Button from "../../ui/Button";
+import { Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-export default function DashboardHero() {
 
-    const username = "Ahmad";
+export default function DashboardHero() {
+    const navigate = useNavigate();
 
     const hour = new Date().getHours();
 
@@ -13,57 +15,28 @@ export default function DashboardHero() {
                 : "Good Evening";
 
     return (
-        <section className="space-y-8">
+        <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-10">
 
-            <div>
+            <p className="text-violet-400">
+                {greeting}
+            </p>
 
-                <h1 className="text-5xl font-bold">
-                    {greeting},{" "}
-                    <span className="text-violet-400">
-                        {username}
-                    </span>
-                </h1>
+            <h1 className="mt-3 text-5xl font-bold">
+                Ready to Practice?
+            </h1>
 
-                <p className="mt-3 text-zinc-400">
-                    Finish today's mission and keep your streak alive.
-                </p>
+            <p className="mt-4 max-w-2xl leading-7 text-zinc-400">
+                Generate personalized coding quizzes using AI based on any topic you want.
+            </p>
 
-            </div>
+            <Button
+                className="mt-8"
+                onClick={() => navigate("/practice")}
+            >
+                <Sparkles size={18} />
+                Generate Practice
+            </Button>
 
-            <div className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-6">
-
-                <p className="text-sm text-violet-400">
-                    Today's Goal
-                </p>
-
-                <h2 className="mt-2 text-2xl font-bold">
-                    JWT Authentication
-                </h2>
-
-                <div className="mt-5">
-
-                    <div className="mb-2 flex justify-between">
-
-                        <span>Progress</span>
-
-                        <span>62%</span>
-
-                    </div>
-
-                    <div className="h-2 rounded-full bg-zinc-800">
-
-                        <div
-                            className="h-full rounded-full bg-violet-500"
-                            style={{
-                                width: "62%",
-                            }}
-                        />
-
-                    </div>
-
-                </div>
-
-            </div>
         </section>
-    )
+    );
 }

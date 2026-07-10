@@ -11,9 +11,9 @@ import DashboardPage from "../pages/Dashboard/DashboardPage";
 import ProgressPage from "../pages/Progress/ProgressPage";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import SettingsPage from "../pages/Settings/SettingsPage";
-import ChallengesPage from "../pages/Challenges/ChallengesPage";
 import ProtectedRoute from "./ProtectedRoute";
-import ChallengeDetailPage from "../pages/ChallengeDetail/ChallengeDetailPage";
+import PracticePage from "../pages/Practice/PracticePage";
+import PracticeDetailPage from "../pages/PracticeDetail/PracticeDetailPage";
 
 export default function AppRouter() {
   return (
@@ -45,14 +45,14 @@ export default function AppRouter() {
           />
 
           <Route
-            path="/challenges"
-            element={<ChallengesPage />}
+            path="/practice"
+            element={<PracticePage />}
           />
 
-          <Route
-            path="/challenges/:slug"
-            element={<ChallengeDetailPage />}
-          />
+          {/* <Route
+            path="/practice/:slug"
+            element={<PracticeDetailPage />}
+          /> */}
 
           <Route
             path="/progress"

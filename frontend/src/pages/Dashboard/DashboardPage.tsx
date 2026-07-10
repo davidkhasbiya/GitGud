@@ -1,51 +1,23 @@
-import {
-    DashboardHero,
-    ContinueLearning,
-    DailyStreak,
-    WeeklyActivity,
-    RecommendedChallenges,
-} from "../../components/dashboard";
-import AIChatPreview from "../../components/dashboard/ai/AIChatPreview";
-import AIStatus from "../../components/dashboard/ai/AIStatus";
-import MissionCard from "../../components/dashboard/ai/MissionCard";
-import SkillAnalysis from "../../components/dashboard/ai/SkillAnalysis";
-import {
-    skills,
-    mission,
-    conversations,
-    achievements,
-    leaderboard,
-    recommendation,
-} from "../../data/dashboard";
-import AIRecommendation from "../../components/dashboard/ai/AIRecommendation";
-import AchievementShowcase from "../../components/dashboard/achievement/AchievementShowcase";
-import LeaderboardPreview from "../../components/dashboard/leaderboard/LeaderboardPreview";
+import DashboardHero from "../../components/dashboard/hero/DashboardHero";
+import RecentPractice from "../../components/dashboard/recent/RecentPractice";
+import AIRecommendation from "../../components/dashboard/recommendation/AIRecommendation";
+import DashboardStats from "../../components/dashboard/stats/DashboardStats";
+import PracticeGeneratorCard from "../../components/practice/PracticeGeneratorCard";
 
 export default function DashboardPage() {
     return (
-        <>
-            <div className="space-y-8">
-                <DashboardHero />
-                <ContinueLearning />
-                <DailyStreak />
-                <WeeklyActivity />
-                <RecommendedChallenges />
-                <AIStatus status="online" />
-                <SkillAnalysis skills={skills} />
-                <MissionCard mission={mission} />
-                <AIChatPreview
-                    conversations={conversations}
-                />
-                <AIRecommendation
-                    recommendation={recommendation}
-                />
-                <AchievementShowcase
-                    achievements={achievements}
-                />
-                <LeaderboardPreview
-                    leaderboard={leaderboard}
-                />
-            </div>
-        </>
+        <div className="space-y-8">
+
+            <DashboardHero />
+
+            <PracticeGeneratorCard />
+
+            <RecentPractice />
+
+            <AIRecommendation />
+
+            <DashboardStats />
+
+        </div>
     );
 }

@@ -1,9 +1,9 @@
-export type ChallengeDifficulty =
+export type PracticeDifficulty =
     | "Beginner"
     | "Intermediate"
     | "Advanced";
 
-export type ChallengeCategory =
+export type PracticeCategory =
     | "Backend"
     | "Database"
     | "DevOps"
@@ -11,32 +11,25 @@ export type ChallengeCategory =
     | "Security"
     | "AI";
 
-export interface Challenge {
-
+export interface Practice {
     id: string;
-
     slug: string;
-
     title: string;
-
     description: string;
 
-    difficulty: ChallengeDifficulty;
-
-    category: ChallengeCategory;
+    difficulty: PracticeDifficulty;
+    category: PracticeCategory;
 
     technologies: string[];
 
     estimatedMinutes: number;
 
     xp: number;
-
     gems: number;
 
     progress: number;
 
     completedLessons: number;
-
     totalLessons: number;
 
     locked: boolean;
@@ -46,6 +39,20 @@ export interface Challenge {
     prerequisites: string[];
 
     objectives: string[];
-    
+
+    lessons: Lesson[];
+}
+
+export type LessonStatus =
+    | "completed"
+    | "current"
+    | "locked";
+
+export interface Lesson {
+    id: string;
+    title: string;
+    description: string;
+    duration: number;
+    status: LessonStatus;
 }
 

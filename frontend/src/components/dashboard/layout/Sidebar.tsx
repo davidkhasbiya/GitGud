@@ -31,8 +31,8 @@ export default function Sidebar() {
             icon: LayoutDashboard,
         },
         {
-            label: "Challenges",
-            to: "/challenges",
+            label: "Practice",
+            to: "/practice",
             icon: BookOpen,
         },
         {
