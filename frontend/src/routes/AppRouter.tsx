@@ -50,7 +50,7 @@ export default function AppRouter() {
           />
 
           <Route
-            path="/challenges/:id"
+            path="/challenges/:slug"
             element={<ChallengeDetailPage />}
           />
 

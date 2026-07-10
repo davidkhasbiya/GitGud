@@ -8,7 +8,8 @@ export type ChallengeCategory =
     | "Database"
     | "DevOps"
     | "Testing"
-    | "Security";
+    | "Security"
+    | "AI";
 
 export interface Challenge {
 
@@ -45,5 +46,6 @@ export interface Challenge {
     prerequisites: string[];
 
     objectives: string[];
+    
 }
 

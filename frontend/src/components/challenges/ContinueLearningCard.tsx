@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
 
 import type { Challenge } from "../../types/challenge";
-
+import { useNavigate } from "react-router-dom";
 interface Props {
     challenge: Challenge;
 }
@@ -11,7 +11,7 @@ interface Props {
 export default function ContinueLearningCard({
     challenge,
 }: Props) {
-
+    const navigate = useNavigate();
     return (
 
         <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-6">
@@ -39,12 +39,14 @@ export default function ContinueLearningCard({
 
             </div>
 
-            <Button className="mt-6">
-
+            <Button
+                className="mt-6"
+                onClick={() =>
+                    navigate(`/challenges/${challenge.slug}`)
+                }
+            >
                 Continue
-
                 <ArrowRight size={18} />
-
             </Button>
 
         </section>
