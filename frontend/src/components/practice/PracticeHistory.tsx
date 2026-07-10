@@ -1,8 +1,9 @@
 import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom"
 
 export default function PracticeHistory() {
-
+    const navigate = useNavigate();
     return (
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
@@ -35,7 +36,7 @@ export default function PracticeHistory() {
 
                         </div>
 
-                        <Button>
+                        <Button onClick={() => navigate("/practice/current")}>
 
                             Continue
 

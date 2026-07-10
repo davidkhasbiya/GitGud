@@ -56,3 +56,23 @@ export interface Lesson {
     status: LessonStatus;
 }
 
+export type QuestionType =
+    | "multiple-choice"
+    | "coding";
+
+export interface PracticeQuestion {
+
+    id: string;
+
+    type: QuestionType;
+
+    question: string;
+
+    options?: string[];
+
+    starterCode?: string;
+
+    language?: string;
+
+}
+

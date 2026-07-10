@@ -49,10 +49,10 @@ export default function AppRouter() {
             element={<PracticePage />}
           />
 
-          {/* <Route
+          <Route
             path="/practice/:slug"
             element={<PracticeDetailPage />}
-          /> */}
+          />
 
           <Route
             path="/progress"
