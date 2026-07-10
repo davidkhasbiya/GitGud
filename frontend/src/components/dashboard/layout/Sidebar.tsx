@@ -1,7 +1,5 @@
 import {
     LayoutDashboard,
-    Code2,
-    Bot,
     BarChart3,
     User,
     Settings,
@@ -34,11 +32,6 @@ export default function Sidebar() {
             label: "Practice",
             to: "/practice",
             icon: BookOpen,
-        },
-        {
-            label: "AI Mentor",
-            to: "/ai",
-            icon: Bot,
         },
         {
             label: "Progress",

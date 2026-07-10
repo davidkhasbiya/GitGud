@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
     BackButton,
     ProgressBar,
@@ -5,17 +6,20 @@ import {
     QuestionNavigation,
     QuestionRenderer,
 } from "../../components/practiceDetail";
+import { useState } from "react";
 
 export default function PracticeDetailPage() {
+    const navigate = useNavigate();
 
+    const [currentQuestion, setCurrentQuestion] = useState(1);
     return (
 
         <div className="mx-auto max-w-5xl space-y-8">
 
             <BackButton />
-
+            
             <ProgressBar
-                current={1}
+                current={currentQuestion}
                 total={10}
             />
 
@@ -25,8 +29,29 @@ export default function PracticeDetailPage() {
 
             </div>
 
-            <QuestionNavigation />
+            <QuestionNavigation
 
+                current={currentQuestion}
+
+                total={10}
+
+                onPrevious={() =>
+                    setCurrentQuestion(prev =>
+                        Math.max(prev - 1, 1)
+                    )
+                }
+
+                onNext={() =>
+                    setCurrentQuestion(prev =>
+                        prev + 1
+                    )
+                }
+
+                onFinish={() =>
+                    navigate("/result")
+                }
+
+            />
         </div>
 
     );

@@ -14,6 +14,7 @@ import SettingsPage from "../pages/Settings/SettingsPage";
 import ProtectedRoute from "./ProtectedRoute";
 import PracticePage from "../pages/Practice/PracticePage";
 import PracticeDetailPage from "../pages/PracticeDetail/PracticeDetailPage";
+import ResultPage from "../pages/Result/ResultPage";
 
 export default function AppRouter() {
   return (
@@ -52,6 +53,11 @@ export default function AppRouter() {
           <Route
             path="/practice/:slug"
             element={<PracticeDetailPage />}
+          />
+
+          <Route
+            path="/result"
+            element={<ResultPage />}
           />
 
           <Route

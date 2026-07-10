@@ -1,6 +1,35 @@
 import Button from "../ui/Button";
 
-export default function QuestionNavigation() {
+interface Props {
+
+    current: number;
+
+    total: number;
+
+    onPrevious: () => void;
+
+    onNext: () => void;
+
+    onFinish: () => void;
+
+}
+
+export default function QuestionNavigation({
+
+    current,
+
+    total,
+
+    onPrevious,
+
+    onNext,
+
+    onFinish,
+
+}: Props) {
+
+    const isLast =
+        current === total;
 
     return (
 
@@ -8,13 +37,24 @@ export default function QuestionNavigation() {
 
             <Button
                 variant="secondary"
+                onClick={onPrevious}
             >
+
                 Previous
+
             </Button>
 
-            <Button>
+            <Button
+                onClick={
+                    isLast
+                        ? onFinish
+                        : onNext
+                }
+            >
 
-                Next
+                {isLast
+                    ? "Finish"
+                    : "Next"}
 
             </Button>
 
