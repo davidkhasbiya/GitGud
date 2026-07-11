@@ -22,9 +22,9 @@ erDiagram
 
 USERS ||--o{ SUBMISSIONS : submits
 
-CHALLENGES ||--o{ SUBMISSIONS : answered_by
+PRACTICES ||--o{ SUBMISSIONS : answered_by
 
-TRACKS ||--o{ CHALLENGES : contains
+SKILLS ||--o{ PRACTICES : contains
 
 USERS ||--|| PROGRESS : has
 
@@ -44,7 +44,7 @@ timestamp updated_at
 
 }
 
-TRACKS {
+SKILLS {
 
 uuid id PK
 
@@ -56,11 +56,11 @@ timestamp created_at
 
 }
 
-CHALLENGES {
+PRACTICES {
 
 uuid id PK
 
-uuid track_id FK
+uuid skill_id FK
 
 string title
 
@@ -82,7 +82,7 @@ uuid id PK
 
 uuid user_id FK
 
-uuid challenge_id FK
+uuid practice_id FK
 
 text answer
 
