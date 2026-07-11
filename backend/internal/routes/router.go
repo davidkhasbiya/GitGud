@@ -3,38 +3,33 @@ package routes
 import (
 	"net/http"
 
-	 "github.com/ahmaddavid/gitgud/internal/middleware"
-    "github.com/ahmaddavid/gitgud/pkg/response"
-
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+
+	"github.com/ahmaddavid/gitgud/configs"
+	"github.com/ahmaddavid/gitgud/internal/middleware"
 )
 
 func SetupRouter() *gin.Engine {
 
+	cfg := configs.LoadConfig()
+
 	router := gin.New()
 
-	router.Use(
-		middleware.Logger(),
-		gin.Recovery(),
-		cors.New(
-			middleware.CORSMiddleware(),
-		),
-	)
+	router.Use(gin.Recovery())
+	router.Use(middleware.LoggerMiddleware())
+	router.Use(middleware.CORSMiddleware())
 
 	router.GET("/health", func(c *gin.Context) {
 
-		response.Success(
+		c.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
 
-			c,
-
-			http.StatusOK,
-
-			"GitGud API is running",
-
-			nil,
-		)
 	})
+
+	api := router.Group("/api/v1")
+
+	RegisterAuthRoutes(api, cfg)
 
 	return router
 }

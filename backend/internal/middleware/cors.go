@@ -1,29 +1,41 @@
 package middleware
 
-import "github.com/gin-contrib/cors"
+import (
+	"time"
 
-func CORSMiddleware() cors.Config {
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+)
 
-	config := cors.DefaultConfig()
+func CORSMiddleware() gin.HandlerFunc {
 
-	config.AllowOrigins = []string{
-		"http://localhost:5173",
-	}
+	return cors.New(cors.Config{
 
-	config.AllowMethods = []string{
-		"GET",
-		"POST",
-		"PUT",
-		"PATCH",
-		"DELETE",
-		"OPTIONS",
-	}
+		AllowOrigins: []string{
+			"http://localhost:5173",
+		},
 
-	config.AllowHeaders = []string{
-		"*",
-	}
+		AllowMethods: []string{
+			"GET",
+			"POST",
+			"PUT",
+			"PATCH",
+			"DELETE",
+			"OPTIONS",
+		},
 
-	config.AllowCredentials = true
+		AllowHeaders: []string{
+			"Origin",
+			"Authorization",
+			"Content-Type",
+		},
 
-	return config
+		ExposeHeaders: []string{
+			"Content-Length",
+		},
+
+		AllowCredentials: true,
+
+		MaxAge: 12 * time.Hour,
+	})
 }

@@ -16,9 +16,13 @@ func main() {
 
 	database.Connect(cfg)
 
+	database.Migrate()
+
 	router := routes.SetupRouter()
 
 	log.Println("Server running on :" + cfg.AppPort)
 
-	router.Run(":" + cfg.AppPort)
+	if err := router.Run(":" + cfg.AppPort); err != nil {
+		log.Fatal(err)
+	}
 }

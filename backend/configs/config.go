@@ -12,8 +12,10 @@ type Config struct {
 	DBName     string
 	DBSSLMode  string
 
-	JWTSecret    string
 	GeminiAPIKey string
+
+	JWTSecret string
+	JWTExpire string
 }
 
 func LoadConfig() *Config {
@@ -29,7 +31,9 @@ func LoadConfig() *Config {
 		DBName: GetEnv("DB_NAME", ""),
 		DBSSLMode: GetEnv("DB_SSLMODE", "require"),
 
-		JWTSecret: GetEnv("JWT_SECRET", ""),
 		GeminiAPIKey: GetEnv("GEMINI_API_KEY", ""),
+
+		JWTSecret: GetEnv("JWT_SECRET", ""),
+		JWTExpire: GetEnv("JWT_EXPIRE", "24"),
 	}
 }
