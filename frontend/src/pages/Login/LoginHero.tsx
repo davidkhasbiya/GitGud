@@ -1,3 +1,5 @@
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 import Logo from "../../components/layout/Navbar/Logo";
 
 export default function LoginHero() {
@@ -20,6 +22,15 @@ export default function LoginHero() {
             "
         >
             <div>
+
+                <Link
+                    to="/"
+                    className="mb-8 inline-flex items-center gap-2 text-zinc-400 transition hover:text-white"
+                >
+                    <ArrowLeft size={18} />
+                    Back to Home
+                </Link>
+
                 <Logo />
 
                 <div className="mt-24">
@@ -40,6 +51,7 @@ export default function LoginHero() {
                     </p>
 
                 </div>
+
             </div>
 
             <p className="text-sm text-zinc-500">

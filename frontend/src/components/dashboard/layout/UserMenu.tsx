@@ -1,40 +1,40 @@
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
-    Bot,
-    Flame,
-    Gem,
-    ShieldCheck,
-    Trophy,
     User,
-    LogOut,
     Settings,
+    LogOut,
+    Sparkles,
+    ArrowRight,
 } from "lucide-react";
 
-export default function ProfileMenu() {
+import Button from "../../ui/Button";
+
+export default function UserMenu() {
+    const navigate = useNavigate();
     return (
-        <div className="
+        <div
+            className="
                 absolute
                 right-0
                 top-14
-                w-72
-                origin-top-right
+                w-80
                 rounded-2xl
                 border
                 border-zinc-800
                 bg-zinc-900
                 p-5
-                shadow-xl
-                transition-all
-                duration-200
-                animate-in
-                fade-in
-                zoom-in-95
-                ">
+                shadow-2xl
+                z-50
+            "
+        >
+            {/* User */}
 
             <div className="border-b border-zinc-800 pb-4">
 
-                <p className="font-semibold">
+                <h3 className="text-lg font-semibold">
                     Ahmad
-                </p>
+                </h3>
 
                 <p className="text-sm text-zinc-500">
                     Backend Engineer
@@ -42,72 +42,112 @@ export default function ProfileMenu() {
 
             </div>
 
-            <div className="mt-5 space-y-3">
+            {/* AI Recommendation */}
 
-                <div className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                        <Flame size={16} />
-                        Streak
+            <div className="py-5">
+
+                <div className="flex items-center gap-2 text-violet-400">
+
+                    <Sparkles size={18} />
+
+                    <span className="font-semibold">
+                        AI Recommendation
                     </span>
 
-                    <span>15</span>
                 </div>
 
-                <div className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                        <Trophy size={16} />
-                        XP
-                    </span>
+                <div className="mt-4 rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
 
-                    <span>18,250</span>
-                </div>
+                    <p className="text-sm text-zinc-400">
+                        Continue learning
+                    </p>
 
-                <div className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                        <Gem size={16} />
-                        Gems
-                    </span>
+                    <h4 className="mt-1 text-lg font-bold">
+                        Redis Caching
+                    </h4>
 
-                    <span>42</span>
-                </div>
+                    <p className="mt-2 text-sm text-zinc-500">
+                        Estimated 15 minutes • Intermediate
+                    </p>
 
-                <div className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                        <ShieldCheck size={16} />
-                        Shield
-                    </span>
+                    <Button
+                        className="mt-4 w-full justify-center"
+                        onClick={() => navigate("/practice")}
+                    >
+                        Continue Practice
+                        <ArrowRight size={18} />
+                    </Button>
 
-                    <span>x2</span>
-                </div>
-
-                <div className="flex justify-between">
-                    <span className="flex items-center gap-2">
-                        <Bot size={16} />
-                        AI
-                    </span>
-
-                    <span className="text-emerald-400">
-                        Online
-                    </span>
                 </div>
 
             </div>
 
-            <div className="mt-6 border-t border-zinc-800 pt-4 space-y-2">
+            {/* Navigation */}
 
-                <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 hover:bg-zinc-800">
+            <div className="border-t border-zinc-800 pt-4 space-y-2">
+
+                <Link
+                    to="/profile"
+                    className="
+                        flex
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-3
+                        py-3
+                        transition
+                        hover:bg-zinc-800
+                    "
+                >
                     <User size={18} />
+
                     Profile
-                </button>
 
-                <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 hover:bg-zinc-800">
+                </Link>
+
+                <Link
+                    to="/settings"
+                    className="
+                        flex
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-3
+                        py-3
+                        transition
+                        hover:bg-zinc-800
+                    "
+                >
                     <Settings size={18} />
-                    Settings
-                </button>
 
-                <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-red-400 hover:bg-red-500/10">
+                    Settings
+
+                </Link>
+
+            </div>
+
+            {/* Logout */}
+
+            <div className="mt-4 border-t border-zinc-800 pt-4">
+
+                <button
+                    className="
+                        flex
+                        w-full
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-3
+                        py-3
+                        text-red-400
+                        transition
+                        hover:bg-red-500/10
+                    "
+                >
                     <LogOut size={18} />
+
                     Logout
+
                 </button>
 
             </div>
