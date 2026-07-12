@@ -1,3 +1,5 @@
+import api from "../api/axios";
+
 export interface Track {
     id: string;
     name: string;
@@ -14,3 +16,8 @@ export interface Practice {
     xpReward: number;
     track: Track;
 }
+
+export const getPractices = async (): Promise<Practice[]> => {
+    const { data } = await api.get("/practices");
+    return data;
+};

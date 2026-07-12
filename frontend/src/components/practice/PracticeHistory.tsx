@@ -1,54 +1,108 @@
 import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
-export default function PracticeHistory() {
+import type { Practice } from "../../services/practiceService";
+
+interface Props {
+
+    practices: Practice[];
+
+    loading: boolean;
+
+}
+
+export default function PracticeHistory({
+
+    practices,
+
+    loading,
+
+}: Props) {
+
     const navigate = useNavigate();
+
     return (
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
 
             <h2 className="text-2xl font-bold">
 
-                Recent Practices
+                Available Practices
 
             </h2>
 
-            <div className="mt-6 space-y-4">
+            {loading ? (
 
-                <div className="rounded-xl bg-zinc-950 p-5">
+                <p className="mt-6 text-zinc-400">
 
-                    <div className="flex items-center justify-between">
+                    Loading...
 
-                        <div>
+                </p>
 
-                            <h3 className="font-semibold">
+            ) : (
 
-                                JWT Authentication
+                <div className="mt-6 space-y-4">
 
-                            </h3>
+                    {practices.map((practice) => (
 
-                            <p className="text-sm text-zinc-400">
+                        <div
 
-                                Score 84%
+                            key={practice.id}
 
-                            </p>
+                            className="rounded-xl bg-zinc-950 p-5"
+
+                        >
+
+                            <div className="flex items-center justify-between">
+
+                                <div>
+
+                                    <h3 className="font-semibold">
+
+                                        {practice.title}
+
+                                    </h3>
+
+                                    <p className="mt-1 text-sm text-zinc-400">
+
+                                        {practice.track.name} • {practice.difficulty}
+
+                                    </p>
+
+                                    <p className="mt-1 text-sm text-violet-400">
+
+                                        {practice.xpReward} XP · {practice.estimatedMinutes} min
+
+                                    </p>
+
+                                </div>
+
+                                <Button
+
+                                    onClick={() =>
+
+                                        navigate(`/practice/${practice.slug}`)
+
+                                    }
+
+                                >
+
+                                    Start
+
+                                    <ArrowRight size={18} />
+
+                                </Button>
+
+                            </div>
 
                         </div>
 
-                        <Button onClick={() => navigate("/practice/current")}>
-
-                            Continue
-
-                            <ArrowRight size={18} />
-
-                        </Button>
-
-                    </div>
+                    ))}
 
                 </div>
 
-            </div>
+            )}
 
         </section>
 
