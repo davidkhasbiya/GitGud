@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type Submission struct {
@@ -14,15 +13,19 @@ type Submission struct {
 
 	PracticeID uuid.UUID `gorm:"type:uuid;not null"`
 
-	Score int `gorm:"default:0"`
+	User User `gorm:"foreignKey:UserID"`
 
-	Feedback string `gorm:"type:text"`
+	Practice Practice `gorm:"foreignKey:PracticeID"`
 
-	XPEarned int `gorm:"default:0"`
+	Score int
 
-	SubmittedAt time.Time
+	Correct int
+
+	Wrong int
+
+	XPEarned int
+
+	Duration int
 
 	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
 }

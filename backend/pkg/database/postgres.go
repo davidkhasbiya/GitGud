@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/ahmaddavid/gitgud/configs"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

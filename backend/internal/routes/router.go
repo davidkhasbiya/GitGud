@@ -31,5 +31,7 @@ func SetupRouter() *gin.Engine {
 
 	RegisterAuthRoutes(api, cfg)
 
+	RegisterPracticeRoutes(api)
+	
 	return router
 }

@@ -1,28 +1,30 @@
 package models
 
 import (
-	"time"
+    "time"
 
-	"github.com/google/uuid"
-	"gorm.io/gorm"
+    "github.com/google/uuid"
+    "gorm.io/gorm"
 )
 
 type Progress struct {
-	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+    ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 
-	UserID uuid.UUID `gorm:"type:uuid;uniqueIndex;not null"`
+    UserID uuid.UUID `gorm:"type:uuid;uniqueIndex;not null"`
 
-	Level int `gorm:"default:1"`
+    User *User `gorm:"foreignKey:UserID"`
 
-	XP int `gorm:"default:0"`
+    Level int `gorm:"default:1"`
 
-	Streak int `gorm:"default:0"`
+    XP int `gorm:"default:0"`
 
-	TotalCompleted int `gorm:"default:0"`
+    Streak int `gorm:"default:0"`
 
-	Accuracy int `gorm:"default:0"`
+    CompletedPractice int `gorm:"default:0"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+    Accuracy float64 `gorm:"default:0"`
+
+    CreatedAt time.Time
+    UpdatedAt time.Time
+    DeletedAt gorm.DeletedAt `gorm:"index"`
 }

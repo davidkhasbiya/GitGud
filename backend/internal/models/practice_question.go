@@ -4,28 +4,45 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
 
 type PracticeQuestion struct {
 	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
 
-	PracticeID uuid.UUID `gorm:"type:uuid;not null"`
+	PracticeID uuid.UUID `gorm:"type:uuid;not null;index"`
 
-	Type string `gorm:"size:30;not null"`
-	// multiple_choice
-	// coding
+	Practice Practice `gorm:"foreignKey:PracticeID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+
+	// Question Type
+	// multiple | coding
+	Type string `gorm:"size:20;not null"`
+
+	// Difficulty
+	// Easy | Medium | Hard
+	Difficulty string `gorm:"size:20;default:'Easy'"`
 
 	Question string `gorm:"type:text;not null"`
 
-	Choices datatypes.JSON `gorm:"type:jsonb"`
+	// Multiple Choice
+	OptionA string `gorm:"type:text"`
+	OptionB string `gorm:"type:text"`
+	OptionC string `gorm:"type:text"`
+	OptionD string `gorm:"type:text"`
 
-	CorrectAnswer string `gorm:"type:text"`
+	// Correct Answer
+	// Multiple : A/B/C/D
+	// Coding   : Expected solution / reference answer
+	CorrectAnswer string `gorm:"type:text;not null"`
 
+	// Only for Coding Question
 	StarterCode string `gorm:"type:text"`
 
-	Order int
+	// Explanation shown after submit
+	Explanation string `gorm:"type:text"`
+
+	// Display order inside practice
+	OrderNumber int `gorm:"default:1"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time
