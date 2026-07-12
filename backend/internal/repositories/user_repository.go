@@ -44,18 +44,3 @@ func (r *UserRepository) FindByID(id string) (*models.User, error) {
 
 	return &user, nil
 }
-
-func (r *UserRepository) FindByID(id string) (*models.User, error) {
-
-	var user models.User
-
-	err := database.DB.
-		First(&user, "id = ?", id).
-		Error
-
-	if err != nil {
-		return nil, err
-	}
-
-	return &user, nil
-}

@@ -28,7 +28,10 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		token := strings.TrimPrefix(header, "Bearer ")
 
-		claims, err := utils.ValidateToken(token, cfg.JWTSecret)
+		claims, err := utils.ParseJWT(
+			token,
+			cfg.JWTSecret,
+		)
 
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{

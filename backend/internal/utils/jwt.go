@@ -63,35 +63,25 @@ func GenerateJWT(
 	)
 }
 
-func ParseJWT(
-
-	tokenString string,
-
-	secret string,
-
-) (*JWTClaim, error) {
+func ParseJWT(tokenString string, secret string) (*JWTClaim, error) {
 
 	token, err := jwt.ParseWithClaims(
-
 		tokenString,
-
 		&JWTClaim{},
-
 		func(token *jwt.Token) (interface{}, error) {
-
 			return []byte(secret), nil
-
 		},
-
 	)
 
 	if err != nil {
-
 		return nil, err
-
 	}
 
-	claims := token.Claims.(*JWTClaim)
+	claims, ok := token.Claims.(*JWTClaim)
+
+	if !ok || !token.Valid {
+		return nil, jwt.ErrTokenInvalidClaims
+	}
 
 	return claims, nil
 }

@@ -132,6 +132,5 @@ func (s *AuthService) Login(
 
 func (s *AuthService) Me(userID string) (*models.User, error) {
 
-	return s.userRepository.FindByID(userID)
-
+	return s.repo.FindByID(userID)
 }

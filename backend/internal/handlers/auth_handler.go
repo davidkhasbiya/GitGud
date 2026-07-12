@@ -80,8 +80,8 @@ func (h *AuthHandler) Me(c *gin.Context) {
 
 	userID := c.GetString("userID")
 
-	user, err := h.authService.Me(userID)
-
+	user, err := h.service.Me(userID)
+	
 	if err != nil {
 
 		c.JSON(http.StatusNotFound, gin.H{
