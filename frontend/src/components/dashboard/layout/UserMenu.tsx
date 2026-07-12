@@ -9,9 +9,17 @@ import {
 } from "lucide-react";
 
 import Button from "../../ui/Button";
+import useAuth from "../../../hooks/useAuth";
 
 export default function UserMenu() {
     const navigate = useNavigate();
+    const { user, logout } = useAuth();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login");
+    };
+
     return (
         <div
             className="
@@ -32,12 +40,12 @@ export default function UserMenu() {
 
             <div className="border-b border-zinc-800 pb-4">
 
-                <h3 className="text-lg font-semibold">
-                    Ahmad
+                <h3 className="font-semibold">
+                    {user?.name}
                 </h3>
 
-                <p className="text-sm text-zinc-500">
-                    Backend Engineer
+                <p className="text-sm text-zinc-400">
+                    {user?.email}
                 </p>
 
             </div>
@@ -143,6 +151,7 @@ export default function UserMenu() {
                         transition
                         hover:bg-red-500/10
                     "
+                    onClick={handleLogout}
                 >
                     <LogOut size={18} />
 

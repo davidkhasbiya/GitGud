@@ -13,9 +13,9 @@ import { useDashboard } from "../../../contexts/DashboardContext";
 import GlobalSearch from "../../layout/globalSearch/GlobalSearch";
 
 import UserMenu from "./UserMenu";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Topbar() {
-
     const {
         setMobileOpen,
     } = useDashboard();
@@ -24,6 +24,8 @@ export default function Topbar() {
         openUserMenu,
         setOpenUserMenu,
     ] = useState(false);
+
+    const { user } = useAuth();
 
     return (
 
@@ -110,14 +112,10 @@ export default function Topbar() {
                 <div className="relative">
 
                     <button
-                        onClick={() =>
-                            setOpenUserMenu(!openUserMenu)
-                        }
+                        onClick={() => setOpenUserMenu(!openUserMenu)}
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 font-semibold text-white"
                     >
-
-                        A
-
+                        {user?.name?.charAt(0).toUpperCase() ?? "U"}
                     </button>
 
                     {openUserMenu && (

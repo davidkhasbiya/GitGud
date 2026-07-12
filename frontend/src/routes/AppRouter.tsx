@@ -7,81 +7,98 @@ import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 import DashboardLayout from "../layouts/DashboardLayout";
+
 import DashboardPage from "../pages/Dashboard/DashboardPage";
-import ProgressPage from "../pages/Progress/ProgressPage";
-import ProfilePage from "../pages/Profile/ProfilePage";
-import SettingsPage from "../pages/Settings/SettingsPage";
-import ProtectedRoute from "./ProtectedRoute";
 import PracticePage from "../pages/Practice/PracticePage";
 import PracticeDetailPage from "../pages/PracticeDetail/PracticeDetailPage";
 import ResultPage from "../pages/Result/ResultPage";
+import ProgressPage from "../pages/Progress/ProgressPage";
+import ProfilePage from "../pages/Profile/ProfilePage";
+import SettingsPage from "../pages/Settings/SettingsPage";
+
+import ProtectedRoute from "./ProtectedRoute";
 
 export default function AppRouter() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public */}
-        <Route path="/" element={<LandingPage />} />
+    return (
+        <BrowserRouter>
 
-        <Route path="/login" element={<LoginPage />} />
+            <Routes>
 
-        <Route path="/register" element={<RegisterPage />} />
+                {/* Public */}
 
-        <Route
-          path="/forgot-password"
-          element={<ForgotPasswordPage />}
-        />
+                <Route path="/" element={<LandingPage />} />
 
-        {/* Dashboard */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route
-            path="/dashboard"
-            element={<DashboardPage />}
-          />
+                <Route
+                    path="/login"
+                    element={<LoginPage />}
+                />
 
-          <Route
-            path="/practice"
-            element={<PracticePage />}
-          />
+                <Route
+                    path="/register"
+                    element={<RegisterPage />}
+                />
 
-          <Route
-            path="/practice/:slug"
-            element={<PracticeDetailPage />}
-          />
+                <Route
+                    path="/forgot-password"
+                    element={<ForgotPasswordPage />}
+                />
 
-          <Route
-            path="/result"
-            element={<ResultPage />}
-          />
+                {/* Protected */}
 
-          <Route
-            path="/progress"
-            element={<ProgressPage />}
-          />
+                <Route
+                    element={
+                        <ProtectedRoute>
+                            <DashboardLayout />
+                        </ProtectedRoute>
+                    }
+                >
 
-          <Route
-            path="/profile"
-            element={<ProfilePage />}
-          />
+                    <Route
+                        path="/dashboard"
+                        element={<DashboardPage />}
+                    />
 
-          <Route
-            path="/settings"
-            element={<SettingsPage />}
-          />
-        </Route>
+                    <Route
+                        path="/practice"
+                        element={<PracticePage />}
+                    />
 
-        {/* 404 */}
-        <Route
-          path="*"
-          element={<NotFoundPage />}
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+                    <Route
+                        path="/practice/:slug"
+                        element={<PracticeDetailPage />}
+                    />
+
+                    <Route
+                        path="/result"
+                        element={<ResultPage />}
+                    />
+
+                    <Route
+                        path="/progress"
+                        element={<ProgressPage />}
+                    />
+
+                    <Route
+                        path="/profile"
+                        element={<ProfilePage />}
+                    />
+
+                    <Route
+                        path="/settings"
+                        element={<SettingsPage />}
+                    />
+
+                </Route>
+
+                {/* 404 */}
+
+                <Route
+                    path="*"
+                    element={<NotFoundPage />}
+                />
+
+            </Routes>
+
+        </BrowserRouter>
+    );
 }

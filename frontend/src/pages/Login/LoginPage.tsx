@@ -1,16 +1,23 @@
-import AuthLayout from "../../layouts/AuthLayout";
-import LoginForm from "./LoginForm";
-import LoginHero from "./LoginHero";
 import { Navigate } from "react-router-dom";
 
-export default function LoginPage() {
-    const isLoggedIn =
-        localStorage.getItem("isLoggedIn");
+import AuthLayout from "../../layouts/AuthLayout";
+import LoginHero from "./LoginHero";
+import LoginForm from "./LoginForm";
 
-    if (isLoggedIn) {
+import useAuth from "../../hooks/useAuth";
+
+export default function LoginPage() {
+
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return null;
+    }
+
+    if (user) {
         return <Navigate to="/dashboard" replace />;
     }
-    
+
     return (
         <AuthLayout>
             <LoginHero />

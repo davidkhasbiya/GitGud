@@ -13,6 +13,7 @@ import { useDashboard } from "../../../contexts/DashboardContext";
 import { cn } from "../../../lib/cn";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 export default function Sidebar() {
     const {
@@ -51,15 +52,17 @@ export default function Sidebar() {
     ];
 
     const navigate = useNavigate();
+    const { logout } = useAuth();
 
-    const logout = () => {
+    const handleLogout = () => {
         const confirmed = window.confirm(
             "Are you sure you want to logout?"
         );
 
         if (!confirmed) return;
 
-        localStorage.removeItem("isLoggedIn");
+        logout();
+
         navigate("/login");
     };
 
@@ -145,7 +148,7 @@ export default function Sidebar() {
 
                 <div className="border-t border-zinc-800 p-5">
                     <button
-                        onClick={logout}
+                        onClick={handleLogout}
                         className={cn(
                             "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-zinc-400 transition hover:bg-red-500/10 hover:text-red-400",
                             collapsed && "justify-center px-0"
