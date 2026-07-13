@@ -1,23 +1,27 @@
-import api from "../api/axios";
+import axios from "axios";
 
-export interface Track {
-    id: string;
-    name: string;
-    slug: string;
+import type { Practice } from "../types/practice";
+
+const API = "http://localhost:8080/api/v1";
+
+export async function getPractices(): Promise<Practice[]> {
+
+    const res = await axios.get(
+        `${API}/practices`
+    );
+
+    return res.data;
+
 }
 
-export interface Practice {
-    id: string;
-    title: string;
-    slug: string;
-    description: string;
-    difficulty: string;
-    estimatedMinutes: number;
-    xpReward: number;
-    track: Track;
-}
+export async function getPractice(
+    slug: string,
+): Promise<Practice> {
 
-export const getPractices = async (): Promise<Practice[]> => {
-    const { data } = await api.get("/practices");
-    return data;
-};
+    const res = await axios.get(
+        `${API}/practices/${slug}`,
+    );
+
+    return res.data;
+
+}

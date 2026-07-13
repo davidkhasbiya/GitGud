@@ -6,10 +6,9 @@ import {
     PracticeRecommendation,
 } from "../../components/practice";
 
-import {
-    getPractices,
-    type Practice,
-} from "../../services/practiceService";
+import { getPractices } from "../../services/practiceService";
+
+import type { Practice } from "../../types/practice";
 
 export default function PracticePage() {
 

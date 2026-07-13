@@ -6,21 +6,35 @@ import type {
 } from "../../types/practice";
 
 interface Props {
+
     question: PracticeQuestion;
+
+    selected?: string;
+
+    onSelect: (value: string) => void;
+
 }
 
 export default function QuestionRenderer({
+
     question,
+
+    selected,
+
+    onSelect,
+
 }: Props) {
 
     switch (question.type) {
 
-        case "multiple-choice":
+        case "multiple":
 
             return (
 
                 <QuestionCard
                     question={question}
+                    selected={selected}
+                    onSelect={onSelect}
                 />
 
             );
@@ -31,19 +45,14 @@ export default function QuestionRenderer({
 
                 <CodingQuestion
                     question={question}
+                    value={selected}
+                    onChange={onSelect}
                 />
-
             );
 
         default:
 
-            return (
-
-                <p>
-                    Unknown Question Type
-                </p>
-
-            );
+            return <p>Unknown Question</p>;
 
     }
 

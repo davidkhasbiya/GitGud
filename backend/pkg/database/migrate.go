@@ -22,6 +22,8 @@ func Migrate() {
 
 	seeders.SeedPractices(DB)
 
+	seeders.SeedPracticeQuestions(DB)
+
 	if err != nil {
 		log.Fatal(err)
 	}

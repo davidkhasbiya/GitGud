@@ -7,13 +7,13 @@ import (
 )
 
 type Track struct {
-	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+	ID   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey" json:"id"`
 
-	Name string `gorm:"size:100;not null"`
+	Name string `gorm:"size:100;not null" json:"name"`
 
-	Slug string `gorm:"size:100;uniqueIndex;not null"`
+	Slug string `gorm:"size:100;uniqueIndex;not null" json:"slug"`
 
-	Practices []Practice `gorm:"foreignKey:TrackID"`
+	Practices []Practice `gorm:"foreignKey:TrackID" json:"practices"`
 
-	CreatedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
 }

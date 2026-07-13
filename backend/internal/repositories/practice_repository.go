@@ -3,8 +3,8 @@ package repositories
 import (
 	"github.com/ahmaddavid/gitgud/internal/models"
 	"github.com/ahmaddavid/gitgud/pkg/database"
+	"gorm.io/gorm"
 )
-
 type PracticeRepository struct{}
 
 func NewPracticeRepository() *PracticeRepository {
@@ -27,15 +27,15 @@ func (r *PracticeRepository) FindAll() ([]models.Practice, error) {
 	return practices, nil
 }
 
-func (r *PracticeRepository) FindBySlug(
-	slug string,
-) (*models.Practice, error) {
+func (r *PracticeRepository) FindBySlug(slug string) (*models.Practice, error) {
 
 	var practice models.Practice
 
 	err := database.DB.
 		Preload("Track").
-		Preload("Questions").
+		Preload("Questions", func(db *gorm.DB) *gorm.DB {
+			return db.Order("order_number ASC")
+		}).
 		Where("slug = ?", slug).
 		First(&practice).Error
 

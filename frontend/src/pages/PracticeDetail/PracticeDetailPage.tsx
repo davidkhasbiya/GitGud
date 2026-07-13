@@ -1,57 +1,94 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import {
     BackButton,
     ProgressBar,
-    QuestionCard,
     QuestionNavigation,
     QuestionRenderer,
 } from "../../components/practiceDetail";
-import { useState } from "react";
+
+import { getPractice } from "../../services/practiceService";
+
+import type { Practice } from "../../types/practice";
 
 export default function PracticeDetailPage() {
+
     const navigate = useNavigate();
 
-    const [currentQuestion, setCurrentQuestion] = useState(1);
+    const { slug } = useParams();
+
+    const [practice, setPractice] =
+        useState<Practice | null>(null);
+
+    const [currentQuestion, setCurrentQuestion] =
+        useState(1);
+
+    const [answers, setAnswers] =
+        useState<Record<string, string>>({});
+
+    useEffect(() => {
+
+        if (!slug) return;
+
+        getPractice(slug)
+            .then(setPractice)
+            .catch(console.error);
+
+    }, [slug]);
+
+    if (!practice) {
+
+        return <p>Loading...</p>;
+
+    }
+
+    const question =
+        practice.questions[currentQuestion - 1];
+
     return (
 
         <div className="mx-auto max-w-5xl space-y-8">
 
             <BackButton />
-            
+
             <ProgressBar
                 current={currentQuestion}
-                total={10}
+                total={practice.questions.length}
             />
 
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-10 text-center">
-
-                Waiting for practice data...
-
-            </div>
+            <QuestionRenderer
+                question={question}
+                selected={answers[question.id]}
+                onSelect={(value) =>
+                    setAnswers((prev) => ({
+                        ...prev,
+                        [question.id]: value,
+                    }))
+                }
+            />
 
             <QuestionNavigation
-
                 current={currentQuestion}
-
-                total={10}
-
+                total={practice.questions.length}
                 onPrevious={() =>
-                    setCurrentQuestion(prev =>
+                    setCurrentQuestion((prev) =>
                         Math.max(prev - 1, 1)
                     )
                 }
-
                 onNext={() =>
-                    setCurrentQuestion(prev =>
-                        prev + 1
+                    setCurrentQuestion((prev) =>
+                        Math.min(
+                            prev + 1,
+                            practice.questions.length
+                        )
                     )
                 }
-
                 onFinish={() =>
                     navigate("/result")
                 }
-
             />
+
         </div>
 
     );

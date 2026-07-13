@@ -7,25 +7,25 @@ import (
 )
 
 type Practice struct {
-	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+	ID uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey" json:"id"`
 
-	TrackID uuid.UUID `gorm:"type:uuid;not null"`
+	TrackID uuid.UUID `gorm:"type:uuid;not null" json:"trackId"`
 
-	Track Track `gorm:"foreignKey:TrackID"`
+	Track Track `gorm:"foreignKey:TrackID" json:"track"`
 
-	Title string `gorm:"size:255;not null"`
+	Title string `gorm:"size:255;not null" json:"title"`
 
-	Slug string `gorm:"size:255;uniqueIndex;not null"`
+	Slug string `gorm:"size:255;uniqueIndex;not null" json:"slug"`
 
-	Description string `gorm:"type:text"`
+	Description string `gorm:"type:text" json:"description"`
 
-	Difficulty string `gorm:"size:30"`
+	Difficulty string `gorm:"size:30" json:"difficulty"`
 
-	EstimatedMinutes int
+	EstimatedMinutes int `json:"estimatedMinutes"`
 
-	XPReward int
+	XPReward int `json:"xpReward"`
 
-	Questions []PracticeQuestion `gorm:"foreignKey:PracticeID"`
+	Questions []PracticeQuestion `gorm:"foreignKey:PracticeID" json:"questions"`
 
-	CreatedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
 }
