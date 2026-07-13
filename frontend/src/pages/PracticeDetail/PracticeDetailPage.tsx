@@ -11,6 +11,7 @@ import {
 import { getPractice } from "../../services/practiceService";
 
 import type { Practice } from "../../types/practice";
+import { submitPractice } from "../../services/submissionService";
 
 export default function PracticeDetailPage() {
 
@@ -45,6 +46,10 @@ export default function PracticeDetailPage() {
 
     const question =
         practice.questions[currentQuestion - 1];
+
+    const user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+    );
 
     return (
 
@@ -84,9 +89,41 @@ export default function PracticeDetailPage() {
                         )
                     )
                 }
-                onFinish={() =>
-                    navigate("/result")
-                }
+                onFinish={async () => {
+
+                    const payload = {
+                        userId: user.id,
+                        practiceId: practice.id,
+                        answers: Object.entries(answers).map(
+                            ([questionId, answer]) => ({
+                                questionId,
+                                answer,
+                            })
+                        ),
+                    };
+
+                    try {
+
+                        const result = await submitPractice(
+                            payload
+                        );
+
+                        navigate(
+                            "/result",
+                            {
+                                state: result,
+                            }
+                        );
+
+                    } catch (err) {
+
+                        console.error(err);
+
+                        alert("Submit gagal.");
+
+                    }
+
+                }}
             />
 
         </div>

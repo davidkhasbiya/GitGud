@@ -26,15 +26,27 @@ export default function QuestionCard({
 
     const options = [
 
-        question.optionA,
+        {
+            key: "A",
+            text: question.optionA,
+        },
 
-        question.optionB,
+        {
+            key: "B",
+            text: question.optionB,
+        },
 
-        question.optionC,
+        {
+            key: "C",
+            text: question.optionC,
+        },
 
-        question.optionD,
+        {
+            key: "D",
+            text: question.optionD,
+        },
 
-    ].filter(Boolean) as string[];
+    ].filter(option => option.text);
 
     return (
 
@@ -57,10 +69,15 @@ export default function QuestionCard({
                 {options.map((option) => (
 
                     <AnswerOption
-                        key={option}
-                        option={option}
-                        selected={selected === option}
-                        onClick={() => onSelect(option)}
+
+                        key={option.key}
+
+                        option={`${option.key}. ${option.text}`}
+
+                        selected={selected === option.key}
+
+                        onClick={() => onSelect(option.key)}
+
                     />
 
                 ))}

@@ -8,81 +8,68 @@ import {
 import * as authApi from "../api/auth";
 
 interface User {
-
     id: string;
-
     name: string;
-
     email: string;
-
 }
 
 interface LoginPayload {
-
     email: string;
-
     password: string;
-
 }
 
 interface RegisterPayload {
-
     name: string;
-
     email: string;
-
     password: string;
-
 }
 
 interface AuthContextType {
-
     user: User | null;
-
     token: string | null;
-
     loading: boolean;
 
     login: (payload: LoginPayload) => Promise<void>;
 
-    register: (payload: RegisterPayload) => Promise<void>;
+    register: (
+        payload: RegisterPayload,
+    ) => Promise<void>;
 
     logout: () => void;
 
     refreshUser: () => Promise<void>;
-
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext =
+    createContext<AuthContextType | null>(null);
 
 export function AuthProvider({
-
     children,
-
 }: {
-
     children: ReactNode;
-
 }) {
 
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] =
+        useState<User | null>(null);
 
-    const [token, setToken] = useState<string | null>(
-        localStorage.getItem("token"),
-    );
+    const [token, setToken] =
+        useState<string | null>(
+            localStorage.getItem("token"),
+        );
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] =
+        useState(true);
 
-    async function login(payload: LoginPayload) {
+    async function login(
+        payload: LoginPayload,
+    ) {
 
-        const data = await authApi.login(payload);
+        const data =
+            await authApi.login(payload);
 
         localStorage.setItem(
-
             "token",
-
             data.token,
-
         );
 
         setToken(data.token);
@@ -91,9 +78,12 @@ export function AuthProvider({
 
     }
 
-    async function register(payload: RegisterPayload) {
+    async function register(
+        payload: RegisterPayload,
+    ) {
 
-        const data = await authApi.register(payload);
+        const data =
+            await authApi.register(payload);
 
         localStorage.setItem(
             "token",
@@ -110,13 +100,22 @@ export function AuthProvider({
 
         try {
 
-            const data = await authApi.me();
+            const data =
+                await authApi.me();
 
             setUser(data);
+
+            // Simpan user agar bisa dipakai di halaman lain
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data),
+            );
 
         } catch {
 
             localStorage.removeItem("token");
+
+            localStorage.removeItem("user");
 
             setToken(null);
 
@@ -134,9 +133,12 @@ export function AuthProvider({
 
         localStorage.removeItem("token");
 
+        localStorage.removeItem("user");
+
         setToken(null);
 
         setUser(null);
+
         window.location.href = "/";
 
     }
@@ -158,25 +160,15 @@ export function AuthProvider({
     return (
 
         <AuthContext.Provider
-
             value={{
-
                 user,
-
                 token,
-
                 loading,
-
                 login,
-
                 register,
-
                 logout,
-
                 refreshUser,
-
             }}
-
         >
 
             {children}

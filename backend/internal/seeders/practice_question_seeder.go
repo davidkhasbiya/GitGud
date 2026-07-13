@@ -166,9 +166,35 @@ func SeedPracticeQuestions(db *gorm.DB) {
 		},
 
 		// ==========================
-		// GO POINTER
+		// CODING QUESTION
 		// ==========================
 
+		{
+			PracticeID: goFunctions.ID,
+			Type: "coding",
+			Difficulty: "Medium",
+
+			Question: "Create a function Sum(a int, b int) int that returns the sum of two integers.",
+
+			StarterCode: `package main
+
+		func Sum(a int, b int) int {
+
+		}
+		`,
+
+			CorrectAnswer: `func Sum(a int, b int) int {
+			return a + b
+		}`,
+
+			Explanation: "Return the sum of a and b.",
+
+			OrderNumber: 6,
+		},
+
+		// ==========================
+		// GO POINTER
+		// ==========================
 		{
 			PracticeID: goPointer.ID,
 			Type: "multiple",

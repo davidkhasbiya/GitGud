@@ -6,39 +6,50 @@ import {
     ResultActions,
 } from "../../components/result";
 
+import { useLocation } from "react-router-dom";
+
 export default function ResultPage() {
+
+    const { state } = useLocation();
+
+    if (!state) {
+        return <p>No Result</p>;
+    }
 
     return (
 
         <div className="mx-auto max-w-6xl space-y-8">
 
             <ResultHero
-                score={84}
+                score={state.score}
+                correct={state.correct}
+                wrong={state.wrong}
+                xpEarned={state.xpEarned}
+                level={state.level}
+                totalXP={state.totalXP}
             />
 
             <ResultStats
-                correct={17}
-                total={20}
-                xp={150}
-                duration={18}
+                correct={state.correct}
+                total={state.correct + state.wrong}
+                xp={state.xpEarned}
+                duration={0}
             />
 
             <AIFeedback
-                feedback="You have a solid understanding of JWT Authentication. Focus on Authorization and Middleware to improve your overall backend security skills."
+                feedback="You have a solid understanding of this topic."
                 strengths={[
-                    "JWT Structure",
-                    "Access Token",
-                    "Refresh Token",
+                    "Problem Solving",
+                    "Concept Understanding",
                 ]}
                 improvements={[
-                    "Authorization",
-                    "Middleware",
+                    "Practice More Coding",
                 ]}
             />
 
             <NextRecommendation
-                title="Redis Authentication"
-                reason="AI recommends practicing Redis Session Management before moving to OAuth."
+                title="Next Practice"
+                reason="Continue to improve your backend skills."
             />
 
             <ResultActions />
@@ -46,5 +57,4 @@ export default function ResultPage() {
         </div>
 
     );
-
 }
