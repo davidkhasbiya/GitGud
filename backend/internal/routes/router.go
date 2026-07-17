@@ -10,6 +10,7 @@ import (
     "github.com/ahmaddavid/gitgud/internal/middleware"
     "github.com/ahmaddavid/gitgud/internal/repositories"
     "github.com/ahmaddavid/gitgud/internal/services"
+	"github.com/ahmaddavid/gitgud/internal/ai"
 )
 
 func SetupRouter() *gin.Engine {
@@ -49,6 +50,30 @@ func SetupRouter() *gin.Engine {
 	api.POST(
 		"/submissions",
 		submissionHandler.Submit,
+	)
+
+	geminiClient, err := ai.NewGeminiClient(
+	cfg.GeminiAPIKey,
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	aiRepo := repositories.NewAIRepository()
+
+	aiService := services.NewAIService(
+		geminiClient,
+		aiRepo,
+	)
+
+	aiHandler := handlers.NewAIHandler(
+		aiService,
+	)
+
+	api.POST(
+		"/practices/generate",
+		aiHandler.GeneratePractice,
 	)
 	
 	return router

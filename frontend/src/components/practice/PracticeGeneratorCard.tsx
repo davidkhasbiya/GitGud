@@ -1,8 +1,65 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from "../ui/Button";
-import { Sparkles } from "lucide-react";
+
+import { generatePractice } from "../../services/aiService";
 
 export default function PracticeGeneratorForm() {
+
+    const navigate = useNavigate();
+
+    const [track, setTrack] = useState("go");
+
+    const [difficulty, setDifficulty] =
+        useState("Easy");
+
+    const [topic, setTopic] =
+        useState("");
+
+    const [questionCount, setQuestionCount] =
+        useState(5);
+
+    const [loading, setLoading] =
+        useState(false);
+
+    const handleGenerate = async () => {
+
+        try {
+
+            setLoading(true);
+
+            const result =
+                await generatePractice({
+
+                    track,
+
+                    difficulty,
+
+                    topic,
+
+                    questionCount,
+
+                });
+
+            navigate(`/practice/${result.slug}`);
+
+        } catch (err) {
+
+            console.error(err);
+
+            alert("Generate Practice gagal.");
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
     return (
+
         <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-8">
 
             <p className="font-medium text-violet-400">
@@ -14,55 +71,105 @@ export default function PracticeGeneratorForm() {
             </h2>
 
             <p className="mt-2 text-zinc-400">
-                Describe what you want to practice and let AI create a personalized coding quiz.
+                Let AI create personalized programming questions.
             </p>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2">
 
                 <input
-                    placeholder="Topic (JWT, Redis, Docker...)"
-                    className="rounded-xl bg-zinc-900 p-4 outline-none"
+
+                    value={topic}
+
+                    onChange={(e) => setTopic(e.target.value)}
+
+                    placeholder="JWT, Docker, Redis..."
+
+                    className="rounded-xl bg-zinc-900 p-4"
+
                 />
 
-                <select className="rounded-xl bg-zinc-900 p-4">
+                <select
 
-                    <option>Beginner</option>
-                    <option>Intermediate</option>
-                    <option>Advanced</option>
+                    value={difficulty}
+
+                    onChange={(e) => setDifficulty(e.target.value)}
+
+                    className="rounded-xl bg-zinc-900 p-4"
+
+                >
+
+                    <option>Easy</option>
+
+                    <option>Medium</option>
+
+                    <option>Hard</option>
 
                 </select>
 
-                <select className="rounded-xl bg-zinc-900 p-4">
+                <select
 
-                    <option>5 Questions</option>
-                    <option>10 Questions</option>
-                    <option>20 Questions</option>
+                    value={questionCount}
+
+                    onChange={(e) =>
+
+                        setQuestionCount(
+
+                            Number(e.target.value)
+
+                        )
+
+                    }
+
+                    className="rounded-xl bg-zinc-900 p-4"
+
+                >
+
+                    <option value={5}>5 Questions</option>
+
+                    <option value={10}>10 Questions</option>
+
+                    <option value={20}>20 Questions</option>
 
                 </select>
 
-                <select className="rounded-xl bg-zinc-900 p-4">
+                <select
 
-                    <option>Go</option>
-                    <option>JavaScript</option>
-                    <option>Python</option>
+                    value={track}
+
+                    onChange={(e) => setTrack(e.target.value)}
+
+                    className="rounded-xl bg-zinc-900 p-4"
+
+                >
+
+                    <option value="go">Go</option>
+
+                    <option value="javascript">
+                        JavaScript
+                    </option>
+
+                    <option value="python">
+                        Python
+                    </option>
 
                 </select>
 
             </div>
 
-            <textarea
-                placeholder="Additional instruction (optional)"
-                className="mt-4 h-32 w-full rounded-xl bg-zinc-900 p-4 outline-none"
-            />
+            <div className="mt-6">
 
-            <Button className="mt-6">
+                <Button
+                    loading={loading}
+                    onClick={handleGenerate}
+                    className="w-full md:w-auto"
+                >
+                    Generate Practice
+                </Button>
 
-                <Sparkles size={18} />
-
-                Generate Practice
-
-            </Button>
+            </div>
 
         </section>
+
     );
+
 }
