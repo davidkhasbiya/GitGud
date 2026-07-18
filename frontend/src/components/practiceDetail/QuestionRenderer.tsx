@@ -40,13 +40,10 @@ export default function QuestionRenderer({
             );
 
         case "coding":
-
             return (
-
                 <CodingQuestion
                     question={question}
-                    value={selected}
-                    onChange={onSelect}
+                    onSubmit={onSelect}
                 />
             );
 

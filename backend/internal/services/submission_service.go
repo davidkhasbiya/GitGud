@@ -3,7 +3,7 @@ package services
 import (
 	"math"
 	"strings"
-
+	"fmt"
 	"github.com/ahmaddavid/gitgud/internal/dto"
 	"github.com/ahmaddavid/gitgud/internal/models"
 	"github.com/ahmaddavid/gitgud/internal/repositories"
@@ -32,6 +32,10 @@ func (s *SubmissionService) Submit(
 		return nil, err
 	}
 
+	fmt.Println("========== SUBMISSION ==========")
+	fmt.Println("PracticeID:", req.PracticeID)
+	fmt.Println("Question Count:", len(questions))
+
 	answerMap := map[string]string{}
 
 	for _, a := range req.Answers {
@@ -43,19 +47,33 @@ func (s *SubmissionService) Submit(
 
 	for _, q := range questions {
 
-    // Coding belum dinilai
-    if q.Type == "coding" {
-        continue
-    }
+		userAnswer := answerMap[q.ID.String()]
 
-    total++
+		switch q.Type {
 
-    if strings.EqualFold(
-        answerMap[q.ID.String()],
-        q.CorrectAnswer,
-    ) {
-        correct++
-    }
+		case "multiple":
+
+			total++
+
+			if strings.EqualFold(
+				strings.TrimSpace(userAnswer),
+				strings.TrimSpace(q.CorrectAnswer),
+			) {
+				correct++
+			}
+
+		case "coding":
+
+			total++
+
+			expected := normalizeCode(q.CorrectAnswer)
+
+			actual := normalizeCode(userAnswer)
+
+			if expected == actual {
+				correct++
+			}
+		}
 	}
 
 	wrong := total - correct
@@ -65,29 +83,22 @@ func (s *SubmissionService) Submit(
 	if total > 0 {
 		score = correct * 100 / total
 	}
+
 	xp := correct * 10
 
-	// ==========================
-	// SAVE SUBMISSION
-	// ==========================
-
 	submission := models.Submission{
-		UserID:     req.UserID,
+		UserID: req.UserID,
 		PracticeID: req.PracticeID,
-		Score:      score,
-		Correct:    correct,
-		Wrong:      wrong,
-		XPEarned:   xp,
-		Duration:   0,
+		Score: score,
+		Correct: correct,
+		Wrong: wrong,
+		XPEarned: xp,
+		Duration: req.Duration,
 	}
 
 	if err := s.repo.CreateSubmission(&submission); err != nil {
 		return nil, err
 	}
-
-	// ==========================
-	// UPDATE PROGRESS
-	// ==========================
 
 	progress, err := s.repo.FindProgress(req.UserID)
 
@@ -96,15 +107,10 @@ func (s *SubmissionService) Submit(
 		if err == gorm.ErrRecordNotFound {
 
 			progress = &models.Progress{
-
 				UserID: req.UserID,
-
 				Level: 1,
-
 				XP: xp,
-
 				CompletedPractice: 1,
-
 				Accuracy: math.Round(float64(score)*100) / 100,
 			}
 
@@ -129,7 +135,6 @@ func (s *SubmissionService) Submit(
 				float64(progress.CompletedPractice)*100,
 		) / 100
 
-		// LEVEL
 		progress.Level = (progress.XP / 100) + 1
 
 		if err := s.repo.SaveProgress(progress); err != nil {
@@ -151,5 +156,22 @@ func (s *SubmissionService) Submit(
 
 		"totalXP": progress.XP,
 
+		"duration": req.Duration,
 	}, nil
+}
+
+func normalizeCode(code string) string {
+
+    code = strings.ToLower(code)
+
+    code = strings.ReplaceAll(code, "\r", "")
+
+    code = strings.ReplaceAll(code, "\n", "")
+
+    code = strings.ReplaceAll(code, "\t", "")
+
+    code = strings.ReplaceAll(code, " ", "")
+
+    return strings.TrimSpace(code)
+
 }

@@ -9,9 +9,9 @@ import {
 } from "../../components/practiceDetail";
 
 import { getPractice } from "../../services/practiceService";
+import { submitPractice } from "../../services/submissionService";
 
 import type { Practice } from "../../types/practice";
-import { submitPractice } from "../../services/submissionService";
 
 export default function PracticeDetailPage() {
 
@@ -37,6 +37,69 @@ export default function PracticeDetailPage() {
             .catch(console.error);
 
     }, [slug]);
+
+    useEffect(() => {
+
+        if (!practice) return;
+
+        const saved = localStorage.getItem(
+            `practice-${practice.id}`
+        );
+
+        if (saved) {
+
+            const data = JSON.parse(saved);
+
+            setCurrentQuestion(
+                data.currentQuestion || 1
+            );
+
+            setAnswers(
+                data.answers || {}
+            );
+        }
+
+        const startKey =
+            `practice-start-${practice.id}`;
+
+        if (!localStorage.getItem(startKey)) {
+
+            localStorage.setItem(
+                startKey,
+                Date.now().toString()
+            );
+
+        }
+
+    }, [practice]);
+
+    useEffect(() => {
+
+        if (!practice) return;
+
+        localStorage.setItem(
+
+            `practice-${practice.id}`,
+
+            JSON.stringify({
+
+                currentQuestion,
+
+                answers,
+
+            })
+
+        );
+
+    }, [
+
+        practice,
+
+        currentQuestion,
+
+        answers,
+
+    ]);
 
     if (!practice) {
 
@@ -91,29 +154,68 @@ export default function PracticeDetailPage() {
                 }
                 onFinish={async () => {
 
+                    const start = Number(
+
+                        localStorage.getItem(
+
+                            `practice-start-${practice.id}`
+
+                        )
+
+                    );
+
+                    const duration = Math.max(
+
+                        1,
+
+                        Math.ceil(
+
+                            (Date.now() - start) / 60000
+
+                        )
+
+                    );
+
                     const payload = {
+
                         userId: user.id,
+
                         practiceId: practice.id,
+
+                        duration,
+
                         answers: Object.entries(answers).map(
+
                             ([questionId, answer]) => ({
+
                                 questionId,
+
                                 answer,
+
                             })
+
                         ),
+
                     };
 
                     try {
 
-                        const result = await submitPractice(
-                            payload
+                        const result =
+                            await submitPractice(payload);
+
+                        localStorage.removeItem(
+                            `practice-${practice.id}`
                         );
 
-                        navigate(
-                            "/result",
-                            {
-                                state: result,
-                            }
+                        localStorage.removeItem(
+                            `practice-start-${practice.id}`
                         );
+
+                        navigate("/result", {
+
+                            state: result,
+
+                        });
 
                     } catch (err) {
 

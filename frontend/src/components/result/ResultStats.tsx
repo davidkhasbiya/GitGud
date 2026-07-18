@@ -59,7 +59,9 @@ export default function ResultStats({
                 </p>
 
                 <h3 className="mt-2 text-3xl font-bold">
-                    {duration} min
+
+                    {duration} minute{duration > 1 ? "s" : ""}
+
                 </h3>
 
             </div>

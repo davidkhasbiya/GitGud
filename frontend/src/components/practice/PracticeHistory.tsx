@@ -2,7 +2,7 @@ import Button from "../ui/Button";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import type { Practice } from "../../services/practiceService";
+import type { Practice } from "../../types/practice";
 
 interface Props {
 
