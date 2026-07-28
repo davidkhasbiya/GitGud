@@ -1,31 +1,48 @@
 import {
     Bell,
-    Moon,
     Menu,
     Flame,
     Trophy,
 } from "lucide-react";
 
-import { useState } from "react";
+import {
+    useState,
+    useEffect,
+} from "react";
 
 import { useDashboard } from "../../../contexts/DashboardContext";
 
 import GlobalSearch from "../../layout/globalSearch/GlobalSearch";
 
 import UserMenu from "./UserMenu";
+
 import useAuth from "../../../hooks/useAuth";
 
-export default function Topbar() {
-    const {
-        setMobileOpen,
-    } = useDashboard();
+import { getDashboard } from "../../../services/dashboardService";
 
-    const [
-        openUserMenu,
-        setOpenUserMenu,
-    ] = useState(false);
+import type { DashboardData } from "../../../types/dashboard";
+
+export default function Topbar() {
+
+    const { setMobileOpen } = useDashboard();
 
     const { user } = useAuth();
+
+    const [openUserMenu, setOpenUserMenu] =
+        useState(false);
+
+    const [dashboard, setDashboard] =
+        useState<DashboardData | null>(null);
+
+    useEffect(() => {
+
+        if (!user?.id) return;
+
+        getDashboard(user.id)
+            .then(setDashboard)
+            .catch(console.error);
+
+    }, [user]);
 
     return (
 
@@ -63,7 +80,7 @@ export default function Topbar() {
 
                         <span>
 
-                            15
+                            {dashboard?.streak ?? 0} Days
 
                         </span>
 
@@ -78,7 +95,7 @@ export default function Topbar() {
 
                         <span>
 
-                            2450 XP
+                            {dashboard?.xp ?? 0} XP
 
                         </span>
 
@@ -86,20 +103,11 @@ export default function Topbar() {
 
                     <div className="rounded-full bg-violet-500/10 px-3 py-1 text-sm font-medium text-violet-400">
 
-                        Lv.12
+                        Lv.{dashboard?.level ?? 1}
 
                     </div>
 
                 </div>
-
-                <button
-                    className="text-zinc-400 transition hover:text-violet-500"
-                    title="Coming Soon"
-                >
-
-                    <Moon size={20} />
-
-                </button>
 
                 <button
                     className="text-zinc-400 transition hover:text-violet-500"
@@ -112,10 +120,14 @@ export default function Topbar() {
                 <div className="relative">
 
                     <button
-                        onClick={() => setOpenUserMenu(!openUserMenu)}
+                        onClick={() =>
+                            setOpenUserMenu(!openUserMenu)
+                        }
                         className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 font-semibold text-white"
                     >
+
                         {user?.name?.charAt(0).toUpperCase() ?? "U"}
+
                     </button>
 
                     {openUserMenu && (

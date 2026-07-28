@@ -1,5 +1,27 @@
-export interface ProgressResponse {
+export interface WeeklyActivity {
+    day: string;
+    count: number;
+}
 
+export interface SkillProgress {
+    name: string;
+    progress: number;
+}
+
+export interface PracticeHistory {
+    title: string;
+    score: number;
+    xpEarned: number;
+    createdAt: string;
+}
+
+export interface AIInsight {
+    strength: string;
+    weakness: string;
+    recommendation: string;
+}
+
+export interface ProgressResponse {
     level: number;
 
     xp: number;
@@ -16,6 +38,9 @@ export interface ProgressResponse {
 
     totalWrong: number;
 
+    // TAMBAHKAN INI
+    streak: number;
+
     weeklyActivity: WeeklyActivity[];
 
     skills: SkillProgress[];
@@ -23,55 +48,4 @@ export interface ProgressResponse {
     recent: PracticeHistory[];
 
     insight: AIInsight;
-
-}
-
-export interface ProgressStats {
-
-    totalPractice: number;
-
-    averageScore: number;
-
-    xp: number;
-
-    streak: number;
-
-}
-
-export interface SkillProgress {
-
-    name: string;
-
-    progress: number;
-
-}
-
-export interface WeeklyActivity {
-
-    day: string;
-
-    count: number;
-
-}
-
-export interface PracticeHistory {
-
-    title: string;
-
-    score: number;
-
-    xpEarned: number;
-
-    createdAt: string;
-
-}
-
-export interface AIInsight {
-
-    strength: string;
-
-    weakness: string;
-
-    recommendation: string;
-
 }

@@ -1,20 +1,12 @@
-import type {
+import { useState } from "react";
 
-    NotificationSettings as NotificationSettingsType,
+export default function NotificationSettings() {
 
-} from "../../types/settings";
+    const [email, setEmail] =
+        useState(true);
 
-interface Props {
-
-    notification: NotificationSettingsType;
-
-}
-
-export default function NotificationSettings({
-
-    notification,
-
-}: Props) {
+    const [practice, setPractice] =
+        useState(true);
 
     return (
 
@@ -28,36 +20,31 @@ export default function NotificationSettings({
 
             <div className="mt-8 space-y-5">
 
-                <label className="flex items-center gap-3">
+                <label className="flex items-center justify-between">
+
+                    <span>Email Notification</span>
 
                     <input
                         type="checkbox"
-                        defaultChecked={notification.emailNotification}
+                        checked={email}
+                        onChange={() =>
+                            setEmail(!email)
+                        }
                     />
-
-                    Email Notification
 
                 </label>
 
-                <label className="flex items-center gap-3">
+                <label className="flex items-center justify-between">
+
+                    <span>Practice Reminder</span>
 
                     <input
                         type="checkbox"
-                        defaultChecked={notification.practiceReminder}
+                        checked={practice}
+                        onChange={() =>
+                            setPractice(!practice)
+                        }
                     />
-
-                    Daily Practice Reminder
-
-                </label>
-
-                <label className="flex items-center gap-3">
-
-                    <input
-                        type="checkbox"
-                        defaultChecked={notification.achievementNotification}
-                    />
-
-                    Achievement Notification
 
                 </label>
 

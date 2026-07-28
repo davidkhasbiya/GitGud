@@ -1,75 +1,36 @@
-import {
-    Bot,
-    BookOpen,
-    Folder,
-    Brain,
-} from "lucide-react";
-
+import { BookOpen, LayoutDashboard } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-import type { GlobalSearchItem } from "../../../data/globalSearch";
+import type { SearchItem } from "../../../types/search";
 
 interface Props {
-    item: GlobalSearchItem;
+  item: SearchItem;
+  onSelect: () => void; // Tambahkan prop ini
 }
 
-export default function SearchItem({
-    item,
-}: Props) {
+export default function SearchItemCard({ item, onSelect }: Props) {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const Icon = item.type === "practice" ? BookOpen : LayoutDashboard;
 
-    const icon = {
+  const handleSelect = () => {
+    navigate(item.url);
+    onSelect();
+  };
 
-        challenge: BookOpen,
-
-        learning: Folder,
-
-        workspace: Folder,
-
-        ai: Brain,
-
-    };
-
-    const Icon = icon[item.type];
-
-    return (
-
-        <button
-            onClick={() => navigate(item.url)}
-            className="
-                flex
-                w-full
-                items-center
-                gap-3
-                rounded-lg
-                px-3
-                py-3
-                text-left
-                transition
-                hover:bg-zinc-800
-            "
-        >
-
-            <Icon
-                size={18}
-                className="text-violet-400"
-            />
-
-            <div>
-
-                <p className="font-medium">
-                    {item.title}
-                </p>
-
-                <p className="text-xs text-zinc-500">
-                    {item.description}
-                </p>
-
-            </div>
-
-        </button>
-
-    );
-
+  return (
+    <button
+      onMouseDown={(e) => {
+        // Mencegah input onBlur terpanggil sebelum navigasi selesai
+        e.preventDefault();
+        handleSelect();
+      }}
+      className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition hover:bg-zinc-800"
+    >
+      <Icon size={18} className="text-violet-400" />
+      <div>
+        <p className="font-medium">{item.title}</p>
+        <p className="text-xs text-zinc-500">{item.description}</p>
+      </div>
+    </button>
+  );
 }

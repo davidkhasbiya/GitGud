@@ -89,18 +89,10 @@ export default function ProgressPage() {
 
             <ProgressStats
                 stats={{
-
-                    totalPractice:
-                        progress.completedPractice,
-
-                    averageScore:
-                        Math.round(progress.averageScore),
-
-                    xp:
-                        progress.xp,
-
-                    streak: 0,
-
+                    totalPractice: progress.completedPractice,
+                    averageScore: Math.round(progress.averageScore),
+                    xp: progress.xp,
+                    streak: progress.streak,
                 }}
             />
 
@@ -115,7 +107,6 @@ export default function ProgressPage() {
             <PracticeHistory
                 history={progress.recent}
             />
-
 
             <AIInsight
                 insight={progress.insight}

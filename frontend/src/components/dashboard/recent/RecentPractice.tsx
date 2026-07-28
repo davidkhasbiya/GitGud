@@ -1,57 +1,94 @@
-import Button from "../../ui/Button";
-import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+interface Practice {
 
-export default function RecentPractice() {
+    title: string;
 
-    const navigate = useNavigate();
+    score: number;
+
+    xpEarned: number;
+
+    createdAt: string;
+
+}
+
+interface Props {
+
+    history: Practice[];
+
+}
+
+export default function RecentPractice({
+
+    history,
+
+}: Props) {
 
     return (
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
 
-            <p className="text-violet-400">
-                Last Practice
-            </p>
+            <h2 className="text-2xl font-bold">
 
-            <h2 className="mt-2 text-3xl font-bold">
-                JWT Authentication
+                Recent Practice
+
             </h2>
 
-            <p className="mt-2 text-zinc-400">
-                Continue your unfinished AI generated practice.
-            </p>
+            <div className="mt-8 space-y-4">
 
-            <div className="mt-8">
+                {
 
-                <div className="flex justify-between text-sm">
+                    history.map((item)=>(
 
-                    <span>Progress</span>
+                        <div
 
-                    <span>6 / 10 Questions</span>
+                            key={item.createdAt+item.title}
 
-                </div>
+                            className="rounded-xl bg-zinc-950 p-5"
 
-                <div className="mt-3 h-2 rounded-full bg-zinc-800">
+                        >
 
-                    <div
-                        className="h-full rounded-full bg-violet-500"
-                        style={{
-                            width: "60%",
-                        }}
-                    />
+                            <div className="flex justify-between">
 
-                </div>
+                                <div>
+
+                                    <h3 className="font-semibold">
+
+                                        {item.title}
+
+                                    </h3>
+
+                                    <p className="text-sm text-zinc-500">
+
+                                        {item.createdAt}
+
+                                    </p>
+
+                                </div>
+
+                                <div className="text-right">
+
+                                    <p className="font-bold text-violet-400">
+
+                                        {item.score}%
+
+                                    </p>
+
+                                    <p className="text-yellow-400">
+
+                                        +{item.xpEarned} XP
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    ))
+
+                }
 
             </div>
-
-            <Button
-                className="mt-8"
-                onClick={() => navigate("/practice/current")}
-            >
-                Continue Practice
-                <ArrowRight size={18} />
-            </Button>
 
         </section>
 

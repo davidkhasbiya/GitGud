@@ -1,26 +1,39 @@
 import Button from "../ui/Button";
+import { LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-import type {
+export default function SecuritySettings() {
 
-    SecuritySettings as SecuritySettingsType,
+    const navigate = useNavigate();
 
-} from "../../types/settings";
+    // const logout = () => {
 
-interface Props {
+    //     localStorage.removeItem("token");
 
-    security: SecuritySettingsType;
+    //     localStorage.removeItem("user");
 
-}
+    //     navigate("/login");
 
-export default function SecuritySettings({
+    // };
 
-    security,
+    const { logout } = useAuth();
 
-}: Props) {
+    const handleLogout = () => {
+        const confirmed = window.confirm(
+            "Are you sure you want to logout?"
+        );
+
+        if (!confirmed) return;
+
+        logout();
+
+        navigate("/login");
+    };
 
     return (
 
-        <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8">
+        <section className="rounded-2xl border border-red-500/20 bg-red-500/5 p-8">
 
             <h2 className="text-2xl font-bold">
 
@@ -28,44 +41,22 @@ export default function SecuritySettings({
 
             </h2>
 
-            <div className="mt-8 space-y-5">
+            <p className="mt-2 text-zinc-400">
 
-                <input
-                    type="password"
-                    placeholder="Current Password"
-                    className="w-full rounded-xl bg-zinc-950 p-4"
-                />
+                Logout from your account.
 
-                <input
-                    type="password"
-                    placeholder="New Password"
-                    className="w-full rounded-xl bg-zinc-950 p-4"
-                />
+            </p>
 
-                <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    className="w-full rounded-xl bg-zinc-950 p-4"
-                />
+            <Button
+                className="mt-8 bg-red-600 hover:bg-red-500"
+                onClick={handleLogout}
+            >
 
-                <label className="flex items-center gap-3">
+                <LogOut size={18} />
 
-                    <input
-                        type="checkbox"
-                        defaultChecked={security.twoFactorEnabled}
-                    />
+                Logout
 
-                    Enable Two Factor Authentication
-
-                </label>
-
-                <Button>
-
-                    Update Password
-
-                </Button>
-
-            </div>
+            </Button>
 
         </section>
 

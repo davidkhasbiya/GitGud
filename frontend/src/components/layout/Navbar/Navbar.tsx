@@ -1,6 +1,5 @@
 import Container from "../../ui/Container";
 import Button from "../../ui/Button";
-import ThemeToggle from "../../ui/ThemeToggle";
 
 import Logo from "./Logo";
 import NavLinks from "./NavLinks";
@@ -32,8 +31,6 @@ export default function Navbar() {
                     </nav>
 
                     <div className="flex items-center gap-3">
-
-                        <ThemeToggle />
 
                         <Button
                             onClick={() =>

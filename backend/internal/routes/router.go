@@ -90,6 +90,77 @@ func SetupRouter() *gin.Engine {
 	{
 		progress.GET("/:userId", progressHandler.Get)
 	}
+
+	profileRepo := repositories.NewProfileRepository()
+
+	profileService := services.NewProfileService(
+		profileRepo,
+	)
+
+	profileHandler := handlers.NewProfileHandler(
+		profileService,
+	)
+
+	api.GET(
+		"/profile/:userId",
+		profileHandler.Get,
+	)
+
+	dashboardRepo := repositories.NewDashboardRepository()
+
+	dashboardService := services.NewDashboardService(
+		dashboardRepo,
+	)
+
+	dashboardHandler := handlers.NewDashboardHandler(
+		dashboardService,
+	)
+
+	dashboard := api.Group("/dashboard")
+	{
+		dashboard.GET(
+			"/:userId",
+			dashboardHandler.Get,
+		)
+	}
+
+	settingsRepo := repositories.NewSettingsRepository()
+
+	settingsService := services.NewSettingsService(
+		settingsRepo,
+	)
+
+	settingsHandler := handlers.NewSettingsHandler(
+		settingsService,
+	)
+
+	settings := api.Group("/settings")
+	{
+		settings.PUT(
+			"/profile/:userId",
+			settingsHandler.UpdateProfile,
+		)
+
+		settings.PUT(
+			"/password",
+			settingsHandler.ChangePassword,
+		)
+	}
+
+	searchRepo := repositories.NewSearchRepository()
+
+	searchService := services.NewSearchService(
+		searchRepo,
+	)
+
+	searchHandler := handlers.NewSearchHandler(
+		searchService,
+	)
+
+	api.GET(
+		"/search",
+		searchHandler.Search,
+	)
 	
 	return router
 }

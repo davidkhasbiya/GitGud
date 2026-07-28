@@ -1,67 +1,24 @@
 import SearchGroup from "./SearchGroup";
-
-import type { GlobalSearchItem } from "../../../data/globalSearch";
+import type { SearchItem } from "../../../types/search";
 
 interface Props {
-
-    items: GlobalSearchItem[];
-
+  items: SearchItem[];
+  onSelect: () => void; // Tambahkan prop ini
 }
 
-export default function SearchDropdown({
-
-    items,
-
-}: Props) {
-
-    return (
-
-        <div
-            className="
-                absolute
-                left-0
-                right-0
-                top-16
-                z-50
-                rounded-2xl
-                border
-                border-zinc-800
-                bg-zinc-900
-                p-3
-                shadow-2xl
-            "
-        >
-
-            <SearchGroup
-                title="Challenges"
-                items={items.filter(
-                    x => x.type === "challenge"
-                )}
-            />
-
-            <SearchGroup
-                title="Learning Paths"
-                items={items.filter(
-                    x => x.type === "learning"
-                )}
-            />
-
-            <SearchGroup
-                title="Workspace"
-                items={items.filter(
-                    x => x.type === "workspace"
-                )}
-            />
-
-            <SearchGroup
-                title="AI Mentor"
-                items={items.filter(
-                    x => x.type === "ai"
-                )}
-            />
-
-        </div>
-
-    );
-
+export default function SearchDropdown({ items, onSelect }: Props) {
+  return (
+    <div className="absolute left-0 right-0 top-16 z-50 rounded-2xl border border-zinc-800 bg-zinc-900 p-3 shadow-2xl">
+      <SearchGroup
+        title="Practice"
+        items={items.filter((x) => x.type === "practice")}
+        onSelect={onSelect}
+      />
+      <SearchGroup
+        title="Pages"
+        items={items.filter((x) => x.type === "page")}
+        onSelect={onSelect}
+      />
+    </div>
+  );
 }

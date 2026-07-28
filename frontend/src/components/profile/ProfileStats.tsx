@@ -1,66 +1,42 @@
 import {
     Trophy,
-    Flame,
     Brain,
+    Target,
     Star,
 } from "lucide-react";
 
-import type {
-    Profile,
-} from "../../types/profile";
-
 interface Props {
-
-    profile: Profile;
-
+    profile: any;
 }
 
 export default function ProfileStats({
-
     profile,
-
 }: Props) {
 
-    const items = [
+    const stats = [
 
         {
-
-            title: "Practices",
-
-            value: profile.totalPractices,
-
-            icon: Brain,
-
-        },
-
-        {
-
-            title: "Average Score",
-
-            value: `${profile.averageScore}%`,
-
+            title: "Level",
+            value: profile.level,
             icon: Star,
-
         },
 
         {
-
             title: "XP",
-
             value: profile.xp,
-
             icon: Trophy,
-
         },
 
         {
+            title: "Practices",
+            value: profile.completedPractice,
+            icon: Brain,
+        },
 
-            title: "Streak",
-
-            value: `${profile.streak} Days`,
-
-            icon: Flame,
-
+        {
+            title: "Accuracy",
+            value: `${Math.round(profile.accuracy)}%`,
+            icon: Target,
         },
 
     ];
@@ -69,7 +45,7 @@ export default function ProfileStats({
 
         <section className="grid gap-6 md:grid-cols-4">
 
-            {items.map(item => {
+            {stats.map((item) => {
 
                 const Icon = item.icon;
 
@@ -82,7 +58,7 @@ export default function ProfileStats({
 
                         <Icon className="text-violet-400" />
 
-                        <p className="mt-4 text-sm text-zinc-500">
+                        <p className="mt-4 text-zinc-500">
 
                             {item.title}
 

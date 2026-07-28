@@ -1,16 +1,22 @@
+export interface RecentPractice {
+
+    title: string;
+
+    score: number;
+
+    xpEarned: number;
+
+    createdAt: string;
+
+}
+
 export interface Profile {
 
     id: string;
 
-    username: string;
-
-    fullName: string;
+    name: string;
 
     email: string;
-
-    bio: string;
-
-    avatar: string;
 
     joinedAt: string;
 
@@ -18,46 +24,10 @@ export interface Profile {
 
     xp: number;
 
-    streak: number;
+    accuracy: number;
 
-    totalPractices: number;
+    completedPractice: number;
 
-    averageScore: number;
-
-    skills: Skill[];
-
-    achievements: Achievement[];
-
-    activities: Activity[];
-
-}
-
-export interface Skill {
-
-    name: string;
-
-    mastery: number;
-
-}
-
-export interface Achievement {
-
-    id: string;
-
-    title: string;
-
-    description: string;
-
-    icon: string;
-
-}
-
-export interface Activity {
-
-    id: string;
-
-    title: string;
-
-    date: string;
+    recent: RecentPractice[];
 
 }

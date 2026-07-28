@@ -1,130 +1,55 @@
-import {
-    Search,
-} from "lucide-react";
-
-import {
-    useMemo,
-    useState,
-} from "react";
-
-import {
-    useNavigate,
-    useSearchParams,
-} from "react-router-dom";
-
-import {
-    globalSearch,
-} from "../../../data/globalSearch";
-
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import { search } from "../../../services/searchService";
+import type { SearchItem } from "../../../types/search";
 import SearchDropdown from "./SearchDropdown";
 
 export default function GlobalSearch() {
-    const [searchParams] = useSearchParams();
+  const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [items, setItems] = useState<SearchItem[]>([]);
 
-    const initialQuery =
-        searchParams.get("q") ?? "";
+  useEffect(() => {
+    const timeout = setTimeout(async () => {
+      if (!query.trim()) {
+        setItems([]);
+        return;
+      }
 
-    const [query, setQuery] =
-        useState(initialQuery);
+      try {
+        const data = await search(query);
+        setItems(data);
+      } catch (err) {
+        console.error(err);
+      }
+    }, 300);
 
-    const navigate = useNavigate();
+    return () => clearTimeout(timeout);
+  }, [query]);
 
-    const [focused, setFocused] = useState(false);
+  // Fungsi penangan saat item dipilih
+  const handleSelect = () => {
+    setFocused(false);
+    setQuery("");
+  };
 
-    const filtered = useMemo(() => {
+  return (
+    <div className="relative w-full max-w-md">
+      <div className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3">
+        <Search size={18} className="text-zinc-500" />
+        <input
+          value={query}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setTimeout(() => setFocused(false), 150)}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search..."
+          className="w-full bg-transparent outline-none placeholder:text-zinc-500"
+        />
+      </div>
 
-        if (!query.trim())
-            return [];
-
-        return globalSearch.filter(item =>
-            item.title
-                .toLowerCase()
-                .includes(query.toLowerCase())
-        );
-
-    }, [query]);
-
-    const submit = () => {
-        const params =
-            new URLSearchParams(searchParams);
-
-        if (query.trim()) {
-            params.set("q", query);
-        } else {
-            params.delete("q");
-        }
-
-        navigate(`/challenges?${params.toString()}`);
-    };
-
-    return (
-
-        <div className="relative w-full max-w-md">
-
-            <div
-                className="
-                    flex
-                    items-center
-                    gap-3
-                    rounded-xl
-                    border
-                    border-zinc-800
-                    bg-zinc-900
-                    px-4
-                    py-3
-                "
-            >
-
-                <Search
-                    size={18}
-                    className="text-zinc-500"
-                />
-
-                <input
-                    value={query}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() =>
-                        setTimeout(
-                            () => setFocused(false),
-                            150
-                        )
-                    }
-                    onChange={(e) =>
-                        setQuery(e.target.value)
-                    }
-                    onKeyDown={(e) => {
-
-                        if (e.key === "Enter") {
-
-                            submit();
-
-                        }
-
-                    }}
-                    placeholder="Search challenge, AI, workspace..."
-                    className="
-                        w-full
-                        bg-transparent
-                        outline-none
-                        placeholder:text-zinc-500
-                    "
-                />
-
-            </div>
-
-            {
-                focused &&
-                filtered.length > 0 && (
-
-                    <SearchDropdown
-                        items={filtered}
-                    />
-
-                )
-            }
-
-        </div>
-
-    );
-
+      {focused && items.length > 0 && (
+        <SearchDropdown items={items} onSelect={handleSelect} />
+      )}
+    </div>
+  );
 }

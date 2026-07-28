@@ -1,52 +1,52 @@
+import { useEffect, useState } from "react";
+
 import {
     ProfileHero,
     ProfileStats,
-    SkillOverview,
-    AchievementGrid,
-    ActivityTimeline,
-    ProfileActions,
+    AchievementList,
+    RecentActivity,
+    AccountInformation,
 } from "../../components/profile";
+
+import {
+    getProfile,
+    type Profile,
+} from "../../services/profileService";
 
 export default function ProfilePage() {
 
-    /*
-        TODO:
-        Replace with backend response.
-    */
+    const user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+    );
 
-    const profile = {
+    const [profile, setProfile] =
+        useState<Profile | null>(null);
 
-        id: "",
+    const [loading, setLoading] =
+        useState(true);
 
-        username: "",
+    useEffect(() => {
 
-        fullName: "",
+        if (!user.id) return;
 
-        email: "",
+        getProfile(user.id)
+            .then(setProfile)
+            .catch(console.error)
+            .finally(() => setLoading(false));
 
-        bio: "",
+    }, []);
 
-        avatar: "",
+    if (loading) {
 
-        joinedAt: "",
+        return <div className="p-8">Loading...</div>;
 
-        level: 0,
+    }
 
-        xp: 0,
+    if (!profile) {
 
-        streak: 0,
+        return <div className="p-8">Failed to load profile.</div>;
 
-        totalPractices: 0,
-
-        averageScore: 0,
-
-        skills: [],
-
-        achievements: [],
-
-        activities: [],
-
-    };
+    }
 
     return (
 
@@ -60,19 +60,17 @@ export default function ProfilePage() {
                 profile={profile}
             />
 
-            <SkillOverview
-                skills={profile.skills}
+            <AchievementList
+                profile={profile}
             />
 
-            <AchievementGrid
-                achievements={profile.achievements}
+            <RecentActivity
+                history={profile.recent}
             />
 
-            <ActivityTimeline
-                activities={profile.activities}
+            <AccountInformation
+                profile={profile}
             />
-
-            <ProfileActions />
 
         </div>
 

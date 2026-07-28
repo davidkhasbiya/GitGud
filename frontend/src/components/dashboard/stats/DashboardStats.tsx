@@ -1,77 +1,121 @@
 import {
+    Trophy,
     Brain,
     Flame,
-    Trophy,
+    Star,
 } from "lucide-react";
 
-export default function DashboardStats() {
+interface Props {
+
+    completedPractice: number;
+
+    averageScore: number;
+
+    xp: number;
+
+    streak: number;
+
+}
+
+export default function DashboardStats({
+
+    completedPractice,
+
+    averageScore,
+
+    xp,
+
+    streak,
+
+}: Props) {
+
+    const stats = [
+
+        {
+
+            title: "Practices",
+
+            value: completedPractice,
+
+            icon: Brain,
+
+        },
+
+        {
+
+            title: "Average Score",
+
+            value: `${averageScore}%`,
+
+            icon: Star,
+
+        },
+
+        {
+
+            title: "XP",
+
+            value: xp,
+
+            icon: Trophy,
+
+        },
+
+        {
+
+            title: "Streak",
+
+            value: `${streak} Days`,
+
+            icon: Flame,
+
+        },
+
+    ];
 
     return (
 
-        <section className="grid gap-6 md:grid-cols-3">
+        <section className="grid gap-6 md:grid-cols-4">
 
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+            {stats.map((item) => {
 
-                <Flame
-                    className="text-orange-400"
-                    size={28}
-                />
+                const Icon = item.icon;
 
-                <p className="mt-6 text-zinc-400">
-                    Daily Streak
-                </p>
+                return (
 
-                <h2 className="mt-2 text-5xl font-bold">
-                    15
-                </h2>
+                    <div
 
-                <p className="mt-2 text-zinc-500">
-                    days
-                </p>
+                        key={item.title}
 
-            </div>
+                        className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6"
 
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+                    >
 
-                <Brain
-                    className="text-violet-400"
-                    size={28}
-                />
+                        <Icon
 
-                <p className="mt-6 text-zinc-400">
-                    AI Practices
-                </p>
+                            className="text-violet-400"
 
-                <h2 className="mt-2 text-5xl font-bold">
-                    48
-                </h2>
+                            size={24}
 
-                <p className="mt-2 text-zinc-500">
-                    generated
-                </p>
+                        />
 
-            </div>
+                        <p className="mt-4 text-sm text-zinc-500">
 
-            <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+                            {item.title}
 
-                <Trophy
-                    className="text-yellow-400"
-                    size={28}
-                />
+                        </p>
 
-                <p className="mt-6 text-zinc-400">
-                    Average Score
-                </p>
+                        <h2 className="mt-2 text-3xl font-bold">
 
-                <h2 className="mt-2 text-5xl font-bold">
-                    84%
-                </h2>
+                            {item.value}
 
-                <p className="mt-2 text-zinc-500">
-                    overall
-                </p>
+                        </h2>
 
-            </div>
+                    </div>
+
+                );
+
+            })}
 
         </section>
 

@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import {
     User,
     Settings,
@@ -8,24 +6,78 @@ import {
     ArrowRight,
 } from "lucide-react";
 
+import {
+    Link,
+    useNavigate,
+} from "react-router-dom";
+
+import {
+    useEffect,
+    useState,
+} from "react";
+
 import Button from "../../ui/Button";
+
 import useAuth from "../../../hooks/useAuth";
 
+import {
+    getProfile,
+} from "../../../services/profileService";
+
+import {
+    getDashboard,
+} from "../../../services/dashboardService";
+
+import type {
+    Profile,
+} from "../../../types/profile";
+
+import type {
+    DashboardData,
+} from "../../../types/dashboard";
+
 export default function UserMenu() {
+
     const navigate = useNavigate();
+
     const { user, logout } = useAuth();
 
+    const [profile, setProfile] =
+        useState<Profile | null>(null);
+
+    const [dashboard, setDashboard] =
+        useState<DashboardData | null>(null);
+
+    useEffect(() => {
+
+        if (!user?.id) return;
+
+        getProfile(user.id)
+            .then(setProfile)
+            .catch(console.error);
+
+        getDashboard(user.id)
+            .then(setDashboard)
+            .catch(console.error);
+
+    }, [user]);
+
     const handleLogout = () => {
+
         logout();
+
         navigate("/login");
+
     };
 
     return (
+
         <div
             className="
                 absolute
                 right-0
                 top-14
+                z-50
                 w-80
                 rounded-2xl
                 border
@@ -33,19 +85,23 @@ export default function UserMenu() {
                 bg-zinc-900
                 p-5
                 shadow-2xl
-                z-50
             "
         >
+
             {/* User */}
 
             <div className="border-b border-zinc-800 pb-4">
 
                 <h3 className="font-semibold">
-                    {user?.name}
+
+                    {profile?.name ?? user?.name}
+
                 </h3>
 
                 <p className="text-sm text-zinc-400">
-                    {user?.email}
+
+                    {profile?.email ?? user?.email}
+
                 </p>
 
             </div>
@@ -59,7 +115,9 @@ export default function UserMenu() {
                     <Sparkles size={18} />
 
                     <span className="font-semibold">
+
                         AI Recommendation
+
                     </span>
 
                 </div>
@@ -67,23 +125,35 @@ export default function UserMenu() {
                 <div className="mt-4 rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
 
                     <p className="text-sm text-zinc-400">
+
                         Continue learning
+
                     </p>
 
                     <h4 className="mt-1 text-lg font-bold">
-                        Redis Caching
+
+                        {dashboard?.recommendation ??
+                            "Generate AI Practice"}
+
                     </h4>
 
                     <p className="mt-2 text-sm text-zinc-500">
-                        Estimated 15 minutes • Intermediate
+
+                        Personalized based on your recent learning progress.
+
                     </p>
 
                     <Button
                         className="mt-4 w-full justify-center"
-                        onClick={() => navigate("/practice")}
+                        onClick={() =>
+                            navigate("/practice")
+                        }
                     >
+
                         Continue Practice
+
                         <ArrowRight size={18} />
+
                     </Button>
 
                 </div>
@@ -92,7 +162,7 @@ export default function UserMenu() {
 
             {/* Navigation */}
 
-            <div className="border-t border-zinc-800 pt-4 space-y-2">
+            <div className="space-y-2 border-t border-zinc-800 pt-4">
 
                 <Link
                     to="/profile"
@@ -107,6 +177,7 @@ export default function UserMenu() {
                         hover:bg-zinc-800
                     "
                 >
+
                     <User size={18} />
 
                     Profile
@@ -126,6 +197,7 @@ export default function UserMenu() {
                         hover:bg-zinc-800
                     "
                 >
+
                     <Settings size={18} />
 
                     Settings
@@ -139,6 +211,7 @@ export default function UserMenu() {
             <div className="mt-4 border-t border-zinc-800 pt-4">
 
                 <button
+                    onClick={handleLogout}
                     className="
                         flex
                         w-full
@@ -151,8 +224,8 @@ export default function UserMenu() {
                         transition
                         hover:bg-red-500/10
                     "
-                    onClick={handleLogout}
                 >
+
                     <LogOut size={18} />
 
                     Logout
@@ -162,5 +235,7 @@ export default function UserMenu() {
             </div>
 
         </div>
+
     );
+
 }
