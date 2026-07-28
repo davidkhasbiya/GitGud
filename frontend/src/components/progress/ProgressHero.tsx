@@ -1,33 +1,66 @@
-import { TrendingUp } from "lucide-react";
+interface Props {
 
-export default function ProgressHero() {
+    level: number;
+
+    xp: number;
+
+    nextLevelXp: number;
+
+}
+
+export default function ProgressHero({
+
+    level,
+
+    xp,
+
+    nextLevelXp,
+
+}: Props) {
+
+    const percentage = Math.min(
+
+        (xp / nextLevelXp) * 100,
+
+        100
+
+    );
 
     return (
 
         <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-10">
 
-            <div className="flex items-center gap-3">
+            <p className="text-violet-400">
 
-                <TrendingUp
-                    size={30}
-                    className="text-violet-400"
+                Your Progress
+
+            </p>
+
+            <h1 className="mt-2 text-5xl font-bold">
+
+                Level {level}
+
+            </h1>
+
+            <p className="mt-4 text-zinc-400">
+
+                {xp} / {nextLevelXp} XP
+
+            </p>
+
+            <div className="mt-6 h-3 overflow-hidden rounded-full bg-zinc-800">
+
+                <div
+
+                    className="h-full rounded-full bg-violet-500 transition-all"
+
+                    style={{
+
+                        width: `${percentage}%`,
+
+                    }}
+
                 />
-
-                <div>
-
-                    <h1 className="text-4xl font-bold">
-
-                        Progress
-
-                    </h1>
-
-                    <p className="mt-2 text-zinc-400">
-
-                        Track your coding practice performance and AI skill analysis.
-
-                    </p>
-
-                </div>
 
             </div>
 

@@ -1,6 +1,12 @@
+import type {
+
+    WeeklyActivity as WeeklyActivityType,
+
+} from "../../types/progress";
+
 interface Props {
 
-    values: number[];
+    values: WeeklyActivityType[];
 
 }
 
@@ -20,17 +26,43 @@ export default function WeeklyActivity({
 
             </h2>
 
-            <div className="mt-8 flex h-40 items-end justify-between gap-3">
+            <div className="mt-8 flex h-48 items-end justify-between gap-3">
 
-                {values.map((value, index) => (
+                {values.map((item) => (
 
                     <div
-                        key={index}
-                        className="flex-1 rounded-t-lg bg-violet-500"
-                        style={{
-                            height: `${value}%`,
-                        }}
-                    />
+
+                        key={item.day}
+
+                        className="flex flex-1 flex-col items-center"
+
+                    >
+
+                        <div
+
+                            className="w-full rounded-t-lg bg-violet-500"
+
+                            style={{
+
+                                height: `${Math.max(
+
+                                    item.count * 20,
+
+                                    8
+
+                                )}px`,
+
+                            }}
+
+                        />
+
+                        <span className="mt-2 text-xs text-zinc-500">
+
+                            {item.day}
+
+                        </span>
+
+                    </div>
 
                 ))}
 

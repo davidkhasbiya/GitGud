@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
     ProgressHero,
     ProgressStats,
@@ -7,62 +9,103 @@ import {
     AIInsight,
 } from "../../components/progress";
 
+import { getProgress } from "../../services/progressService";
+import type {
+
+    ProgressResponse,
+
+} from "../../types/progress";
+
+
 export default function ProgressPage() {
 
-    /*
-        TODO:
-        Replace all placeholder values below
-        with data fetched from backend.
-    */
+    const user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+    );
 
-    const progress = {
+    const [progress, setProgress] =
 
-        stats: {
+        useState<ProgressResponse | null>(null);
 
-            totalPractice: 0,
+    const [loading, setLoading] =
+        useState(true);
 
-            averageScore: 0,
+    useEffect(() => {
 
-            xp: 0,
+        if (!user.id) return;
 
-            streak: 0,
+        getProgress(user.id)
+            .then((res) => {
 
-        },
+                setProgress(res);
 
-        weeklyActivity: {
+            })
+            .catch(console.error)
+            .finally(() => {
 
-            values: [],
+                setLoading(false);
 
-        },
+            });
 
-        skills: [],
+    }, []);
 
-        history: [],
+    if (loading) {
 
-        aiInsight: {
+        return (
 
-            strength: "-",
+            <div className="p-8">
 
-            weakness: "-",
+                Loading...
 
-            recommendation: "-",
+            </div>
 
-        },
+        );
 
-    };
+    }
+
+    if (!progress) {
+
+        return (
+
+            <div className="p-8">
+
+                Failed to load progress.
+
+            </div>
+
+        );
+
+    }
 
     return (
 
         <div className="space-y-8">
 
-            <ProgressHero />
+            <ProgressHero
+                level={progress.level}
+                xp={progress.xp}
+                nextLevelXp={progress.nextLevelXp}
+            />
 
             <ProgressStats
-                stats={progress.stats}
+                stats={{
+
+                    totalPractice:
+                        progress.completedPractice,
+
+                    averageScore:
+                        Math.round(progress.averageScore),
+
+                    xp:
+                        progress.xp,
+
+                    streak: 0,
+
+                }}
             />
 
             <WeeklyActivity
-                values={progress.weeklyActivity.values}
+                values={progress.weeklyActivity}
             />
 
             <SkillProgress
@@ -70,11 +113,12 @@ export default function ProgressPage() {
             />
 
             <PracticeHistory
-                history={progress.history}
+                history={progress.recent}
             />
 
+
             <AIInsight
-                insight={progress.aiInsight}
+                insight={progress.insight}
             />
 
         </div>

@@ -75,6 +75,21 @@ func SetupRouter() *gin.Engine {
 		"/practices/generate",
 		aiHandler.GeneratePractice,
 	)
+
+	progressRepo := repositories.NewProgressRepository()
+
+	progressService := services.NewProgressService(
+		progressRepo,
+	)
+
+	progressHandler := handlers.NewProgressHandler(
+		progressService,
+	)
+
+	progress := api.Group("/progress")
+	{
+		progress.GET("/:userId", progressHandler.Get)
+	}
 	
 	return router
 }

@@ -24,44 +24,32 @@ export default function SkillProgress({
 
             </h2>
 
-            <div className="mt-8 space-y-6">
+            {skills.map((skill) => (
 
-                {skills.map((skill) => (
+                <div key={skill.name}>
 
-                    <div key={skill.name}>
+                    <div className="mb-2 flex justify-between">
 
-                        <div className="mb-2 flex justify-between">
+                        <span>{skill.name}</span>
 
-                            <span>
-
-                                {skill.name}
-
-                            </span>
-
-                            <span>
-
-                                {skill.mastery}%
-
-                            </span>
-
-                        </div>
-
-                        <div className="h-2 rounded-full bg-zinc-800">
-
-                            <div
-                                className="h-full rounded-full bg-violet-500"
-                                style={{
-                                    width: `${skill.mastery}%`,
-                                }}
-                            />
-
-                        </div>
+                        <span>{skill.progress}%</span>
 
                     </div>
 
-                ))}
+                    <div className="h-2 rounded-full bg-zinc-800">
 
-            </div>
+                        <div
+                            className="h-full rounded-full bg-violet-500"
+                            style={{
+                                width: `${skill.progress}%`,
+                            }}
+                        />
+
+                    </div>
+
+                </div>
+
+            ))}
 
         </section>
 

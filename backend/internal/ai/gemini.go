@@ -42,7 +42,7 @@ func (g *GeminiClient) GeneratePractice(
 
 		resp, err := g.client.Models.GenerateContent(
 			context.Background(),
-			"gemini-3.1-flash-lite",
+			"gemini-3.5-flash-lite",
 			genai.Text(prompt),
 			nil,
 		)

@@ -1,17 +1,21 @@
-import type {
-    PracticeHistory as PracticeHistoryType,
-} from "../../types/progress";
+import {
+    ArrowRight,
+    Trophy,
+} from "lucide-react";
+
+interface PracticeHistoryItem {
+    title: string;
+    score: number;
+    xpEarned: number;
+    createdAt: string;
+}
 
 interface Props {
-
-    history: PracticeHistoryType[];
-
+    history: PracticeHistoryItem[];
 }
 
 export default function PracticeHistory({
-
     history,
-
 }: Props) {
 
     return (
@@ -24,44 +28,93 @@ export default function PracticeHistory({
 
             </h2>
 
+            <p className="mt-2 text-zinc-400">
+
+                Your latest completed AI coding practices.
+
+            </p>
+
             <div className="mt-8 space-y-4">
 
-                {history.map((item) => (
+                {history.length === 0 ? (
 
-                    <div
-                        key={item.id}
-                        className="rounded-xl bg-zinc-950 p-5"
-                    >
+                    <p className="text-zinc-500">
 
-                        <div className="flex items-center justify-between">
+                        You haven't completed any practice yet.
+
+                    </p>
+
+                ) : (
+
+                    history.map((practice) => (
+
+                        <div
+                            key={`${practice.title}-${practice.createdAt}`}
+                            className="flex items-center justify-between rounded-xl bg-zinc-950 p-5"
+                        >
 
                             <div>
 
                                 <h3 className="font-semibold">
 
-                                    {item.title}
+                                    {practice.title}
 
                                 </h3>
 
-                                <p className="text-sm text-zinc-500">
+                                <p className="mt-1 text-sm text-zinc-500">
 
-                                    {item.date}
+                                    {practice.createdAt}
 
                                 </p>
 
                             </div>
 
-                            <span className="text-lg font-bold text-violet-400">
+                            <div className="flex items-center gap-8">
 
-                                {item.score}%
+                                <div className="text-right">
 
-                            </span>
+                                    <p className="text-sm text-zinc-500">
+
+                                        Score
+
+                                    </p>
+
+                                    <p className="font-bold text-violet-400">
+
+                                        {practice.score}%
+
+                                    </p>
+
+                                </div>
+
+                                <div className="text-right">
+
+                                    <p className="text-sm text-zinc-500">
+
+                                        XP
+
+                                    </p>
+
+                                    <p className="font-bold text-yellow-400">
+
+                                        +{practice.xpEarned}
+
+                                    </p>
+
+                                </div>
+
+                                <ArrowRight
+                                    className="text-zinc-500"
+                                    size={18}
+                                />
+
+                            </div>
 
                         </div>
 
-                    </div>
+                    ))
 
-                ))}
+                )}
 
             </div>
 

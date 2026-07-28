@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 import {
     PracticeGeneratorForm,
-    PracticeHistory,
-    PracticeRecommendation,
+    PracticeList,
 } from "../../components/practice";
 
 import { getPractices } from "../../services/practiceService";
@@ -13,7 +12,6 @@ import type { Practice } from "../../types/practice";
 export default function PracticePage() {
 
     const [practices, setPractices] = useState<Practice[]>([]);
-
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -48,14 +46,9 @@ export default function PracticePage() {
 
             <PracticeGeneratorForm />
 
-            <PracticeRecommendation />
-
-            <PracticeHistory
-
+            <PracticeList
                 practices={practices}
-
                 loading={loading}
-
             />
 
         </div>
