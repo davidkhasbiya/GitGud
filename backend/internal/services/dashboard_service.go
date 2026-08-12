@@ -9,14 +9,17 @@ import (
 
 type DashboardService struct {
 	repo *repositories.DashboardRepository
+	ai   *AIService
 }
 
 func NewDashboardService(
 	repo *repositories.DashboardRepository,
+	aiService *AIService,
 ) *DashboardService {
 
 	return &DashboardService{
 		repo: repo,
+		ai:   aiService,
 	}
 }
 
@@ -25,19 +28,36 @@ func (s *DashboardService) Get(
 ) (*dto.DashboardResponse, error) {
 
 	user, err := s.repo.GetUser(userID)
+
 	if err != nil {
 		return nil, err
 	}
 
 	progress, err := s.repo.GetProgress(userID)
+
 	if err != nil {
 		return nil, err
 	}
 
 	submissions, err := s.repo.GetSubmissions(userID)
+
 	if err != nil {
 		return nil, err
 	}
+
+	// ============================================================
+	// AI RECOMMENDATION
+	// ============================================================
+
+	recommendation, err := s.ai.GetRecommendation(userID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// ============================================================
+	// DASHBOARD STATISTICS
+	// ============================================================
 
 	totalScore := 0
 
@@ -59,76 +79,74 @@ func (s *DashboardService) Get(
 
 		if len(recent) < 5 {
 
-			recent = append(recent, dto.RecentPractice{
+			recent = append(
+				recent,
+				dto.RecentPractice{
+					Title: item.Practice.Title,
 
-				Title: item.Practice.Title,
+					Score: item.Score,
 
-				Score: item.Score,
+					XPEarned: item.XPEarned,
 
-				XPEarned: item.XPEarned,
-
-				CreatedAt: item.CreatedAt.Format("02 Jan 2006"),
-			})
-
+					CreatedAt: item.CreatedAt.Format(
+						"02 Jan 2006",
+					),
+				},
+			)
 		}
 
-		day := item.CreatedAt.Weekday().String()[:3]
+		day := item.CreatedAt.
+			Weekday().
+			String()[:3]
 
 		weekMap[day]++
-
 	}
 
 	average := 0.0
 
 	if len(submissions) > 0 {
 
-		average = float64(totalScore) /
-			float64(len(submissions))
-
+		average =
+			float64(totalScore) /
+				float64(len(submissions))
 	}
 
 	weekly := []dto.WeeklyActivity{
 
 		{
-			Day: "Mon",
+			Day:   "Mon",
 			Count: weekMap["Mon"],
 		},
+
 		{
-			Day: "Tue",
+			Day:   "Tue",
 			Count: weekMap["Tue"],
 		},
+
 		{
-			Day: "Wed",
+			Day:   "Wed",
 			Count: weekMap["Wed"],
 		},
+
 		{
-			Day: "Thu",
+			Day:   "Thu",
 			Count: weekMap["Thu"],
 		},
+
 		{
-			Day: "Fri",
+			Day:   "Fri",
 			Count: weekMap["Fri"],
 		},
+
 		{
-			Day: "Sat",
+			Day:   "Sat",
 			Count: weekMap["Sat"],
 		},
+
 		{
-			Day: "Sun",
+			Day:   "Sun",
 			Count: weekMap["Sun"],
 		},
-	}
-
-	recommendation := "Redis Cache"
-
-	if progress.Accuracy < 70 {
-
-		recommendation = "Go Basics"
-
-	} else if progress.Accuracy < 85 {
-
-		recommendation = "REST API"
-
 	}
 
 	return &dto.DashboardResponse{
@@ -147,15 +165,17 @@ func (s *DashboardService) Get(
 
 		Accuracy: progress.Accuracy,
 
-		Streak: calculateDashboardStreak(submissions),
+		Streak: calculateDashboardStreak(
+			submissions,
+		),
 
 		WeeklyActivity: weekly,
 
 		Recent: recent,
 
 		Recommendation: recommendation,
-	}, nil
 
+	}, nil
 }
 
 func calculateDashboardStreak(
@@ -163,9 +183,7 @@ func calculateDashboardStreak(
 ) int {
 
 	if len(submissions) == 0 {
-
 		return 0
-
 	}
 
 	streak := 1
@@ -174,9 +192,11 @@ func calculateDashboardStreak(
 
 	for i := 1; i < len(submissions); i++ {
 
-		diff := last.Sub(
-			submissions[i].CreatedAt,
-		).Hours()
+		diff := last.
+			Sub(
+				submissions[i].CreatedAt,
+			).
+			Hours()
 
 		if diff <= 48 {
 
@@ -185,11 +205,9 @@ func calculateDashboardStreak(
 		} else {
 
 			break
-
 		}
 
 		last = submissions[i].CreatedAt
-
 	}
 
 	return streak

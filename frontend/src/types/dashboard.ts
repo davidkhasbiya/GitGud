@@ -10,6 +10,14 @@ export interface RecentPractice {
     createdAt: string;
 }
 
+export interface AIRecommendation {
+    title: string;
+    reason: string;
+    difficulty: string;
+    estimatedMinutes: number;
+    focus: string;
+}
+
 export interface DashboardData {
     name: string;
 
@@ -31,5 +39,5 @@ export interface DashboardData {
 
     recent: RecentPractice[];
 
-    recommendation: string;
+    recommendation: AIRecommendation | null;
 }

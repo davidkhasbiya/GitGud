@@ -20,27 +20,22 @@ import Button from "../../ui/Button";
 
 import useAuth from "../../../hooks/useAuth";
 
-import {
-    getProfile,
-} from "../../../services/profileService";
+import { getProfile } from "../../../services/profileService";
 
-import {
-    getDashboard,
-} from "../../../services/dashboardService";
+import { getDashboard } from "../../../services/dashboardService";
 
-import type {
-    Profile,
-} from "../../../types/profile";
+import type { Profile } from "../../../types/profile";
 
-import type {
-    DashboardData,
-} from "../../../types/dashboard";
+import type { DashboardData } from "../../../types/dashboard";
 
 export default function UserMenu() {
 
     const navigate = useNavigate();
 
-    const { user, logout } = useAuth();
+    const {
+        user,
+        logout,
+    } = useAuth();
 
     const [profile, setProfile] =
         useState<Profile | null>(null);
@@ -50,17 +45,43 @@ export default function UserMenu() {
 
     useEffect(() => {
 
-        if (!user?.id) return;
+        const userId = user?.id;
 
-        getProfile(user.id)
-            .then(setProfile)
-            .catch(console.error);
+        if (!userId) return;
 
-        getDashboard(user.id)
-            .then(setDashboard)
-            .catch(console.error);
+        async function loadUserData() {
 
-    }, [user]);
+            try {
+
+                const [
+                    profileData,
+                    dashboardData,
+                ] = await Promise.all([
+
+                    getProfile(userId),
+
+                    getDashboard(userId),
+
+                ]);
+
+                setProfile(profileData);
+
+                setDashboard(dashboardData);
+
+            } catch (err) {
+
+                console.error(
+                    "Failed to load user menu data:",
+                    err,
+                );
+
+            }
+
+        }
+
+        loadUserData();
+
+    }, [user?.id]);
 
     const handleLogout = () => {
 
@@ -69,6 +90,9 @@ export default function UserMenu() {
         navigate("/login");
 
     };
+
+    const recommendation =
+        dashboard?.recommendation ?? null;
 
     return (
 
@@ -88,29 +112,45 @@ export default function UserMenu() {
             "
         >
 
-            {/* User */}
+            {/* USER */}
 
             <div className="border-b border-zinc-800 pb-4">
 
                 <h3 className="font-semibold">
 
-                    {profile?.name ?? user?.name}
+                    {
+                        profile?.name ??
+                        user?.name ??
+                        "User"
+                    }
 
                 </h3>
 
                 <p className="text-sm text-zinc-400">
 
-                    {profile?.email ?? user?.email}
+                    {
+                        profile?.email ??
+                        user?.email ??
+                        ""
+                    }
 
                 </p>
 
             </div>
 
-            {/* AI Recommendation */}
+
+            {/* AI RECOMMENDATION */}
 
             <div className="py-5">
 
-                <div className="flex items-center gap-2 text-violet-400">
+                <div
+                    className="
+                        flex
+                        items-center
+                        gap-2
+                        text-violet-400
+                    "
+                >
 
                     <Sparkles size={18} />
 
@@ -122,47 +162,141 @@ export default function UserMenu() {
 
                 </div>
 
-                <div className="mt-4 rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
 
-                    <p className="text-sm text-zinc-400">
+                {recommendation ? (
 
-                        Continue learning
-
-                    </p>
-
-                    <h4 className="mt-1 text-lg font-bold">
-
-                        {dashboard?.recommendation ??
-                            "Generate AI Practice"}
-
-                    </h4>
-
-                    <p className="mt-2 text-sm text-zinc-500">
-
-                        Personalized based on your recent learning progress.
-
-                    </p>
-
-                    <Button
-                        className="mt-4 w-full justify-center"
-                        onClick={() =>
-                            navigate("/practice")
-                        }
+                    <div
+                        className="
+                            mt-4
+                            rounded-xl
+                            border
+                            border-violet-500/20
+                            bg-violet-500/5
+                            p-4
+                        "
                     >
 
-                        Continue Practice
+                        <p className="text-sm text-zinc-400">
 
-                        <ArrowRight size={18} />
+                            Continue learning
 
-                    </Button>
+                        </p>
 
-                </div>
+                        <h4 className="mt-1 text-lg font-bold">
+
+                            {recommendation.title}
+
+                        </h4>
+
+                        <p className="mt-2 text-sm text-zinc-500">
+
+                            {recommendation.reason}
+
+                        </p>
+
+                        <div className="mt-3 flex flex-wrap gap-2">
+
+                            <span
+                                className="
+                                    rounded-md
+                                    bg-zinc-800
+                                    px-2
+                                    py-1
+                                    text-xs
+                                "
+                            >
+
+                                {recommendation.difficulty}
+
+                            </span>
+
+                            <span
+                                className="
+                                    rounded-md
+                                    bg-zinc-800
+                                    px-2
+                                    py-1
+                                    text-xs
+                                "
+                            >
+
+                                {recommendation.estimatedMinutes} min
+
+                            </span>
+
+                            <span
+                                className="
+                                    rounded-md
+                                    bg-violet-500/10
+                                    px-2
+                                    py-1
+                                    text-xs
+                                    text-violet-400
+                                "
+                            >
+
+                                Focus: {recommendation.focus}
+
+                            </span>
+
+                        </div>
+
+                        <Button
+                            className="
+                                mt-4
+                                w-full
+                                justify-center
+                            "
+                            onClick={() =>
+                                navigate("/practice")
+                            }
+                        >
+
+                            Continue Practice
+
+                            <ArrowRight size={18} />
+
+                        </Button>
+
+                    </div>
+
+                ) : (
+
+                    <div
+                        className="
+                            mt-4
+                            rounded-xl
+                            border
+                            border-zinc-800
+                            bg-zinc-800/50
+                            p-4
+                        "
+                    >
+
+                        <p className="text-sm text-zinc-500">
+
+                            Complete a practice to receive
+                            an AI recommendation.
+
+                        </p>
+
+                    </div>
+
+                )}
 
             </div>
 
-            {/* Navigation */}
 
-            <div className="space-y-2 border-t border-zinc-800 pt-4">
+            {/* NAVIGATION */}
+
+            <div
+                className="
+                    space-y-2
+                    border-t
+                    border-zinc-800
+                    pt-4
+                "
+            >
 
                 <Link
                     to="/profile"
@@ -183,6 +317,7 @@ export default function UserMenu() {
                     Profile
 
                 </Link>
+
 
                 <Link
                     to="/settings"
@@ -206,9 +341,17 @@ export default function UserMenu() {
 
             </div>
 
-            {/* Logout */}
 
-            <div className="mt-4 border-t border-zinc-800 pt-4">
+            {/* LOGOUT */}
+
+            <div
+                className="
+                    mt-4
+                    border-t
+                    border-zinc-800
+                    pt-4
+                "
+            >
 
                 <button
                     onClick={handleLogout}
@@ -235,7 +378,5 @@ export default function UserMenu() {
             </div>
 
         </div>
-
     );
-
 }

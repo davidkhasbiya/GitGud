@@ -4,10 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import Button from "../../components/ui/Button";
-import Divider from "../../components/auth/Divider";
 import Input from "../../components/auth/Input";
 import PasswordInput from "../../components/auth/PasswordInput";
-import SocialButton from "../../components/auth/SocialButton";
 
 import {
     validateName,
@@ -309,14 +307,6 @@ export default function RegisterForm() {
                     </Button>
 
                 </form>
-
-                <div className="my-8">
-
-                    <Divider />
-
-                </div>
-
-                <SocialButton />
 
                 <p className="mt-8 text-center text-sm text-zinc-500">
 

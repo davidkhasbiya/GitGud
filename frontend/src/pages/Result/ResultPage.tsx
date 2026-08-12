@@ -1,4 +1,9 @@
 import {
+    useEffect,
+    useState,
+} from "react";
+
+import {
     ResultHero,
     ResultStats,
     AIFeedback,
@@ -6,87 +11,180 @@ import {
     ResultActions,
 } from "../../components/result";
 
-import { useLocation } from "react-router-dom";
+import {
+    useLocation,
+} from "react-router-dom";
+
+import {
+    getAIFeedback,
+} from "../../services/aiService";
+
+import {
+    getDashboard,
+} from "../../services/dashboardService";
+
+import type {
+    AIFeedbackResponse,
+} from "../../services/aiService";
+
+import type {
+    DashboardData,
+} from "../../types/dashboard";
 
 export default function ResultPage() {
 
     const { state } = useLocation();
 
+    const [
+        feedback,
+        setFeedback,
+    ] = useState<AIFeedbackResponse | null>(
+        null,
+    );
+
+    const [
+        dashboard,
+        setDashboard,
+    ] = useState<DashboardData | null>(
+        null,
+    );
+
+    const [
+        loading,
+        setLoading,
+    ] = useState(true);
+
+    const [
+        error,
+        setError,
+    ] = useState<string | null>(
+        null,
+    );
+
+    useEffect(() => {
+
+        if (!state) {
+
+            setLoading(false);
+
+            return;
+        }
+
+        const user = JSON.parse(
+            localStorage.getItem("user") || "{}",
+        );
+
+        if (!user.id) {
+
+            setError(
+                "User session not found.",
+            );
+
+            setLoading(false);
+
+            return;
+        }
+
+        if (!state.practiceId) {
+
+            setError(
+                "Practice ID is missing.",
+            );
+
+            setLoading(false);
+
+            return;
+        }
+
+        async function loadResultData() {
+
+            try {
+
+                const [
+                    feedbackData,
+                    dashboardData,
+                ] = await Promise.all([
+
+                    getAIFeedback({
+
+                        userId: user.id,
+
+                        practiceId:
+                            state.practiceId,
+
+                        score:
+                            state.score,
+
+                        correct:
+                            state.correct,
+
+                        wrong:
+                            state.wrong,
+
+                    }),
+
+                    getDashboard(user.id),
+
+                ]);
+
+                setFeedback(
+                    feedbackData,
+                );
+
+                setDashboard(
+                    dashboardData,
+                );
+
+            } catch (err) {
+
+                console.error(
+                    "Failed to load result data:",
+                    err,
+                );
+
+                setError(
+                    "Failed to load result data.",
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
+        }
+
+        loadResultData();
+
+    }, [state]);
+
     if (!state) {
-        return <p>No Result</p>;
-    }
 
-    const score = state.score;
+        return (
 
-    let feedback = "";
-    let strengths: string[] = [];
-    let improvements: string[] = [];
+            <div className="p-8">
 
-    if (score >= 90) {
+                <p className="text-zinc-400">
 
-        feedback =
-            "Excellent work! You demonstrated a strong understanding of the concepts and solved most questions correctly.";
+                    No Result
 
-        strengths = [
-            "Strong problem solving",
-            "Excellent concept understanding",
-            "High coding accuracy",
-        ];
+                </p>
 
-        improvements = [
-            "Try more advanced challenges",
-        ];
+            </div>
 
-    } else if (score >= 70) {
-
-        feedback =
-            "Good job! You understand most concepts but there is still room for improvement.";
-
-        strengths = [
-            "Good logical thinking",
-            "Solid programming fundamentals",
-        ];
-
-        improvements = [
-            "Review incorrect answers",
-            "Practice coding exercises",
-        ];
-
-    } else if (score >= 50) {
-
-        feedback =
-            "You have the basic understanding, but additional practice is recommended.";
-
-        strengths = [
-            "Basic understanding",
-        ];
-
-        improvements = [
-            "Practice more coding problems",
-            "Review the topic again",
-            "Read explanations carefully",
-        ];
-
-    } else {
-
-        feedback =
-            "Keep practicing! Focus on the fundamentals before moving to more difficult topics.";
-
-        strengths = [
-            "Willingness to learn",
-        ];
-
-        improvements = [
-            "Study the topic again",
-            "Practice easier exercises",
-            "Complete more AI-generated practices",
-        ];
-
+        );
     }
 
     return (
 
-        <div className="mx-auto max-w-6xl space-y-8">
+        <div
+            className="
+                mx-auto
+                max-w-6xl
+                space-y-8
+            "
+        >
+
+            {/* RESULT HERO */}
 
             <ResultHero
                 score={state.score}
@@ -97,23 +195,147 @@ export default function ResultPage() {
                 totalXP={state.totalXP}
             />
 
+
+            {/* RESULT STATS */}
+
             <ResultStats
                 correct={state.correct}
-                total={state.correct + state.wrong}
+                total={
+                    state.correct +
+                    state.wrong
+                }
                 xp={state.xpEarned}
                 duration={state.duration}
             />
 
-            <AIFeedback
-                feedback={feedback}
-                strengths={strengths}
-                improvements={improvements}
-            />
+
+            {/* AI FEEDBACK */}
+
+            {loading ? (
+
+                <section
+                    className="
+                        rounded-2xl
+                        border
+                        border-zinc-800
+                        bg-zinc-900
+                        p-8
+                    "
+                >
+
+                    <div
+                        className="
+                            flex
+                            items-center
+                            gap-3
+                        "
+                    >
+
+                        <div
+                            className="
+                                h-5
+                                w-5
+                                animate-spin
+                                rounded-full
+                                border-2
+                                border-zinc-700
+                                border-t-violet-500
+                            "
+                        />
+
+                        <p className="text-zinc-400">
+
+                            Gemini is analyzing
+                            your performance...
+
+                        </p>
+
+                    </div>
+
+                </section>
+
+            ) : error ? (
+
+                <section
+                    className="
+                        rounded-2xl
+                        border
+                        border-red-500/20
+                        bg-zinc-900
+                        p-8
+                    "
+                >
+
+                    <p className="text-red-400">
+
+                        {error}
+
+                    </p>
+
+                </section>
+
+            ) : feedback ? (
+
+                <AIFeedback
+                    feedback={
+                        feedback.summary
+                    }
+
+                    strengths={
+                        feedback.strengths
+                    }
+
+                    improvements={
+                        feedback.weaknesses
+                    }
+                />
+
+            ) : null}
+
+
+            {/* NEXT RECOMMENDATION */}
 
             <NextRecommendation
-                title="Next Practice"
-                reason="Continue to improve your backend skills."
+                recommendation={
+                    dashboard?.recommendation ??
+                    null
+                }
             />
+
+
+            {/* ENCOURAGEMENT */}
+
+            {feedback?.encouragement && (
+
+                <section
+                    className="
+                        rounded-2xl
+                        border
+                        border-violet-500/20
+                        bg-violet-500/5
+                        p-6
+                    "
+                >
+
+                    <p
+                        className="
+                            text-center
+                            text-lg
+                            font-medium
+                            text-violet-300
+                        "
+                    >
+
+                        {feedback.encouragement}
+
+                    </p>
+
+                </section>
+
+            )}
+
+
+            {/* ACTIONS */}
 
             <ResultActions />
 

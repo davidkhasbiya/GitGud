@@ -4,24 +4,29 @@ import StepCard from "./StepCard";
 
 const steps = [
     {
-        title: "Choose Topic",
-        description: "Select backend topics you want to master.",
+        title: "Find a Practice",
+        description:
+            "Search and filter practices by topic, difficulty, language, and learning track.",
     },
     {
-        title: "Generate Challenge",
-        description: "AI creates a practical backend challenge.",
+        title: "Solve the Challenge",
+        description:
+            "Complete practical programming questions inside the GITGUD workspace.",
     },
     {
-        title: "Solve Challenge",
-        description: "Build your solution directly inside the workspace.",
+        title: "Submit Your Work",
+        description:
+            "Submit your answers and let GITGUD evaluate your performance.",
     },
     {
-        title: "Receive AI Feedback",
-        description: "Get explanations and suggestions for improvement.",
+        title: "Get AI Feedback",
+        description:
+            "Gemini analyzes your result and identifies strengths, weaknesses, and areas for improvement.",
     },
     {
-        title: "Track Progress",
-        description: "Earn XP and monitor your learning journey.",
+        title: "Follow Your Recommendation",
+        description:
+            "Receive a personalized next-practice recommendation based on your learning history.",
     },
 ];
 
@@ -30,32 +35,36 @@ export default function Workflow() {
         <Section id="workflow">
             <Container>
 
-                <div className="mx-auto mb-16 max-w-2xl text-center">
+                <div className="mx-auto mb-16 max-w-3xl text-center">
 
                     <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-violet-500">
                         Workflow
                     </p>
 
-                    <h2 className="text-4xl font-bold">
-                        Learn Like a Real Backend Engineer
+                    <h2 className="text-4xl font-bold tracking-tight lg:text-5xl">
+                        Practice. Analyze. Improve.
                     </h2>
 
-                    <p className="mt-4 text-zinc-400">
-                        Every challenge follows a structured workflow,
-                        helping you improve through consistent practice.
+                    <p className="mt-5 text-lg leading-8 text-zinc-500 dark:text-zinc-400">
+                        GITGUD turns every practice session into a continuous
+                        learning cycle powered by your own performance data.
                     </p>
 
                 </div>
 
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-5">
+
                     {steps.map((step, index) => (
+
                         <StepCard
                             key={step.title}
                             number={index + 1}
                             title={step.title}
                             description={step.description}
                         />
+
                     ))}
+
                 </div>
 
             </Container>

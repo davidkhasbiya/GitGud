@@ -8,26 +8,16 @@ export async function getDashboard(
     userId: string,
 ): Promise<DashboardData> {
 
-    const token =
-        localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     const res = await axios.get(
-
         `${API}/dashboard/${userId}`,
-
         {
-
             headers: {
-
-                Authorization:
-                    `Bearer ${token}`,
-
+                Authorization: `Bearer ${token}`,
             },
-
         }
-
     );
 
     return res.data;
-
 }

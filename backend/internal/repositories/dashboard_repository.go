@@ -20,7 +20,8 @@ func (r *DashboardRepository) GetUser(
 
 	err := database.DB.
 		Where("id = ?", userID).
-		First(&user).Error
+		First(&user).
+		Error
 
 	if err != nil {
 		return nil, err
@@ -37,7 +38,8 @@ func (r *DashboardRepository) GetProgress(
 
 	err := database.DB.
 		Where("user_id = ?", userID).
-		First(&progress).Error
+		First(&progress).
+		Error
 
 	if err != nil {
 		return nil, err
@@ -53,14 +55,11 @@ func (r *DashboardRepository) GetSubmissions(
 	var submissions []models.Submission
 
 	err := database.DB.
-
 		Preload("Practice").
-
 		Where("user_id = ?", userID).
-
 		Order("created_at DESC").
-
-		Find(&submissions).Error
+		Find(&submissions).
+		Error
 
 	return submissions, err
 }

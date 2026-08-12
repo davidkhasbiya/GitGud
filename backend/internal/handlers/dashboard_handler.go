@@ -19,7 +19,6 @@ func NewDashboardHandler(
 	return &DashboardHandler{
 		service: service,
 	}
-
 }
 
 func (h *DashboardHandler) Get(
@@ -40,7 +39,6 @@ func (h *DashboardHandler) Get(
 		)
 
 		return
-
 	}
 
 	result, err := h.service.Get(userID)
@@ -55,12 +53,10 @@ func (h *DashboardHandler) Get(
 		)
 
 		return
-
 	}
 
 	c.JSON(
 		http.StatusOK,
 		result,
 	)
-
 }

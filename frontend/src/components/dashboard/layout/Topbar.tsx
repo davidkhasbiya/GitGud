@@ -1,5 +1,4 @@
 import {
-    Bell,
     Menu,
     Flame,
     Trophy,
@@ -36,25 +35,64 @@ export default function Topbar() {
 
     useEffect(() => {
 
-        if (!user?.id) return;
+        const userId = user?.id;
 
-        getDashboard(user.id)
-            .then(setDashboard)
-            .catch(console.error);
+        if (!userId) {
 
-    }, [user]);
+            setDashboard(null);
+
+            return;
+        }
+
+        async function loadDashboard() {
+
+            try {
+
+                const data =
+                    await getDashboard(userId);
+
+                setDashboard(data);
+
+            } catch (error) {
+
+                console.error(
+                    "Failed to load dashboard data:",
+                    error
+                );
+
+                setDashboard(null);
+            }
+        }
+
+        loadDashboard();
+
+    }, [user?.id]);
 
     return (
 
-        <header className="flex h-20 items-center justify-between border-b border-zinc-800 bg-zinc-950 px-8">
+        <header
+            className="
+                flex
+                h-20
+                items-center
+                justify-between
+                border-b
+                border-zinc-800
+                bg-zinc-950
+                px-8
+            "
+        >
 
             {/* LEFT */}
 
             <div className="flex items-center">
 
                 <button
-                    onClick={() => setMobileOpen(true)}
+                    onClick={() =>
+                        setMobileOpen(true)
+                    }
                     className="mr-4 lg:hidden"
+                    aria-label="Open navigation menu"
                 >
 
                     <Menu size={22} />
@@ -65,11 +103,23 @@ export default function Topbar() {
 
             </div>
 
+
             {/* RIGHT */}
 
             <div className="flex items-center gap-6">
 
-                <div className="hidden items-center gap-6 lg:flex">
+                {/* DASHBOARD STATS */}
+
+                <div
+                    className="
+                        hidden
+                        items-center
+                        gap-6
+                        lg:flex
+                    "
+                >
+
+                    {/* STREAK */}
 
                     <div className="flex items-center gap-2">
 
@@ -79,12 +129,13 @@ export default function Topbar() {
                         />
 
                         <span>
-
                             {dashboard?.streak ?? 0} Days
-
                         </span>
 
                     </div>
+
+
+                    {/* XP */}
 
                     <div className="flex items-center gap-2">
 
@@ -94,14 +145,25 @@ export default function Topbar() {
                         />
 
                         <span>
-
                             {dashboard?.xp ?? 0} XP
-
                         </span>
 
                     </div>
 
-                    <div className="rounded-full bg-violet-500/10 px-3 py-1 text-sm font-medium text-violet-400">
+
+                    {/* LEVEL */}
+
+                    <div
+                        className="
+                            rounded-full
+                            bg-violet-500/10
+                            px-3
+                            py-1
+                            text-sm
+                            font-medium
+                            text-violet-400
+                        "
+                    >
 
                         Lv.{dashboard?.level ?? 1}
 
@@ -109,26 +171,40 @@ export default function Topbar() {
 
                 </div>
 
-                <button
-                    className="text-zinc-400 transition hover:text-violet-500"
-                >
 
-                    <Bell size={20} />
-
-                </button>
+                {/* USER */}
 
                 <div className="relative">
 
                     <button
                         onClick={() =>
-                            setOpenUserMenu(!openUserMenu)
+                            setOpenUserMenu(
+                                (previous) =>
+                                    !previous
+                            )
                         }
-                        className="flex h-10 w-10 items-center justify-center rounded-full bg-violet-600 font-semibold text-white"
+                        className="
+                            flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-violet-600
+                            font-semibold
+                            text-white
+                        "
+                        aria-label="Open user menu"
                     >
 
-                        {user?.name?.charAt(0).toUpperCase() ?? "U"}
+                        {
+                            user?.name
+                                ?.charAt(0)
+                                .toUpperCase() ?? "U"
+                        }
 
                     </button>
+
 
                     {openUserMenu && (
 
@@ -143,5 +219,4 @@ export default function Topbar() {
         </header>
 
     );
-
 }

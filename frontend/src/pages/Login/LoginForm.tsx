@@ -4,10 +4,9 @@ import { Mail } from "lucide-react";
 import { toast } from "sonner";
 
 import Button from "../../components/ui/Button";
-import Divider from "../../components/auth/Divider";
 import Input from "../../components/auth/Input";
 import PasswordInput from "../../components/auth/PasswordInput";
-import SocialButton from "../../components/auth/SocialButton";
+
 
 import { validateEmail, validatePassword } from "../../utils/validation";
 import useAuth from "../../hooks/useAuth";
@@ -204,13 +203,7 @@ export default function LoginForm() {
 
                 </form>
 
-                <div className="my-8">
-
-                    <Divider />
-
-                </div>
-
-                <SocialButton />
+               
 
                 <p className="mt-8 text-center text-sm text-zinc-500">
 

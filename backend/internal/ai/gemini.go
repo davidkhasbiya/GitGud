@@ -32,7 +32,9 @@ func NewGeminiClient(
 	}, nil
 }
 
-func (g *GeminiClient) GeneratePractice(
+// Generate digunakan untuk seluruh kebutuhan AI
+// selain GeneratePractice.
+func (g *GeminiClient) Generate(
 	prompt string,
 ) (string, error) {
 
@@ -50,7 +52,9 @@ func (g *GeminiClient) GeneratePractice(
 		if err == nil {
 
 			if resp.Text() == "" {
-				return "", fmt.Errorf("empty response from Gemini")
+				return "", fmt.Errorf(
+					"empty response from Gemini",
+				)
 			}
 
 			return resp.Text(), nil
@@ -68,4 +72,14 @@ func (g *GeminiClient) GeneratePractice(
 	}
 
 	return "", lastErr
+}
+
+// GeneratePractice tetap dipertahankan
+// agar fitur generate practice yang sekarang
+// tidak rusak.
+func (g *GeminiClient) GeneratePractice(
+	prompt string,
+) (string, error) {
+
+	return g.Generate(prompt)
 }

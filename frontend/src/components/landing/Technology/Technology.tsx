@@ -6,8 +6,6 @@ import {
     SiReact,
     SiGo,
     SiPostgresql,
-    SiDocker,
-    SiGooglecloud,
 } from "react-icons/si";
 
 import { Sparkles } from "lucide-react";
@@ -32,17 +30,7 @@ const technologies = [
         icon: <Sparkles size={42} />,
         name: "Gemini AI",
         description: "AI Challenge Generator",
-    },
-    {
-        icon: <SiDocker />,
-        name: "Docker",
-        description: "Containerization",
-    },
-    {
-        icon: <SiGooglecloud />,
-        name: "Cloud Run",
-        description: "Deployment",
-    },
+    }
 ];
 
 export default function Technology() {

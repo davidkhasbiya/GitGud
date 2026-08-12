@@ -1,12 +1,12 @@
 package dto
 
 type GeneratePracticeResponse struct {
-	Title       string               `json:"title"`
-	Description string               `json:"description"`
-	Questions   []AIPracticeQuestion `json:"questions"`
+	Title       string                    `json:"title"`
+	Description string                    `json:"description"`
+	Questions   []GeneratePracticeQuestion `json:"questions"`
 }
 
-type AIPracticeQuestion struct {
+type GeneratePracticeQuestion struct {
 	Type          string `json:"type"`
 	Difficulty    string `json:"difficulty"`
 	Question      string `json:"question"`

@@ -1,16 +1,16 @@
 package routes
 
 import (
-    "net/http"
+	"net/http"
 
-    "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 
-    "github.com/ahmaddavid/gitgud/configs"
-    "github.com/ahmaddavid/gitgud/internal/handlers"
-    "github.com/ahmaddavid/gitgud/internal/middleware"
-    "github.com/ahmaddavid/gitgud/internal/repositories"
-    "github.com/ahmaddavid/gitgud/internal/services"
+	"github.com/ahmaddavid/gitgud/configs"
 	"github.com/ahmaddavid/gitgud/internal/ai"
+	"github.com/ahmaddavid/gitgud/internal/handlers"
+	"github.com/ahmaddavid/gitgud/internal/middleware"
+	"github.com/ahmaddavid/gitgud/internal/repositories"
+	"github.com/ahmaddavid/gitgud/internal/services"
 )
 
 func SetupRouter() *gin.Engine {
@@ -23,6 +23,10 @@ func SetupRouter() *gin.Engine {
 	router.Use(middleware.LoggerMiddleware())
 	router.Use(middleware.CORSMiddleware())
 
+	// =========================================================
+	// HEALTH
+	// =========================================================
+
 	router.GET("/health", func(c *gin.Context) {
 
 		c.JSON(http.StatusOK, gin.H{
@@ -31,11 +35,27 @@ func SetupRouter() *gin.Engine {
 
 	})
 
+	// =========================================================
+	// API
+	// =========================================================
+
 	api := router.Group("/api/v1")
+
+	// =========================================================
+	// AUTH
+	// =========================================================
 
 	RegisterAuthRoutes(api, cfg)
 
+	// =========================================================
+	// PRACTICE
+	// =========================================================
+
 	RegisterPracticeRoutes(api)
+
+	// =========================================================
+	// SUBMISSION
+	// =========================================================
 
 	submissionRepo := repositories.NewSubmissionRepository()
 
@@ -52,8 +72,12 @@ func SetupRouter() *gin.Engine {
 		submissionHandler.Submit,
 	)
 
+	// =========================================================
+	// GEMINI AI
+	// =========================================================
+
 	geminiClient, err := ai.NewGeminiClient(
-	cfg.GeminiAPIKey,
+		cfg.GeminiAPIKey,
 	)
 
 	if err != nil {
@@ -71,10 +95,27 @@ func SetupRouter() *gin.Engine {
 		aiService,
 	)
 
+	// Generate AI Practice
 	api.POST(
 		"/practices/generate",
 		aiHandler.GeneratePractice,
 	)
+
+	// AI Recommendation
+	api.GET(
+		"/ai/recommendation/:userId",
+		aiHandler.Recommendation,
+	)
+
+	// AI Feedback
+	api.POST(
+		"/ai/feedback",
+		aiHandler.Feedback,
+	)
+
+	// =========================================================
+	// PROGRESS
+	// =========================================================
 
 	progressRepo := repositories.NewProgressRepository()
 
@@ -88,8 +129,15 @@ func SetupRouter() *gin.Engine {
 
 	progress := api.Group("/progress")
 	{
-		progress.GET("/:userId", progressHandler.Get)
+		progress.GET(
+			"/:userId",
+			progressHandler.Get,
+		)
 	}
+
+	// =========================================================
+	// PROFILE
+	// =========================================================
 
 	profileRepo := repositories.NewProfileRepository()
 
@@ -105,11 +153,16 @@ func SetupRouter() *gin.Engine {
 		"/profile/:userId",
 		profileHandler.Get,
 	)
+	
+	// =========================================================
+	// DASHBOARD
+	// =========================================================
 
 	dashboardRepo := repositories.NewDashboardRepository()
 
 	dashboardService := services.NewDashboardService(
 		dashboardRepo,
+		aiService,
 	)
 
 	dashboardHandler := handlers.NewDashboardHandler(
@@ -123,6 +176,10 @@ func SetupRouter() *gin.Engine {
 			dashboardHandler.Get,
 		)
 	}
+
+	// =========================================================
+	// SETTINGS
+	// =========================================================
 
 	settingsRepo := repositories.NewSettingsRepository()
 
@@ -147,6 +204,10 @@ func SetupRouter() *gin.Engine {
 		)
 	}
 
+	// =========================================================
+	// SEARCH
+	// =========================================================
+
 	searchRepo := repositories.NewSearchRepository()
 
 	searchService := services.NewSearchService(
@@ -161,6 +222,10 @@ func SetupRouter() *gin.Engine {
 		"/search",
 		searchHandler.Search,
 	)
-	
+
+	// =========================================================
+	// RETURN ROUTER
+	// =========================================================
+
 	return router
 }
