@@ -5,13 +5,18 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/ahmaddavid/gitgud/pkg/database"
+	"github.com/ahmaddavid/gitgud/configs"
 	"github.com/ahmaddavid/gitgud/internal/models"
+	"github.com/ahmaddavid/gitgud/pkg/database"
 )
 
 func main() {
 
-	db := database.Connect()
+	cfg := configs.LoadConfig()
+
+	database.Connect(cfg)
+
+	db := database.DB
 
 	//---------------------------------
 	// Tracks
@@ -19,27 +24,27 @@ func main() {
 
 	tracks := []models.Track{
 		{
-			ID: uuid.New(),
+			ID:   uuid.New(),
 			Name: "Go",
 			Slug: "go",
 		},
 		{
-			ID: uuid.New(),
+			ID:   uuid.New(),
 			Name: "Docker",
 			Slug: "docker",
 		},
 		{
-			ID: uuid.New(),
+			ID:   uuid.New(),
 			Name: "Redis",
 			Slug: "redis",
 		},
 		{
-			ID: uuid.New(),
+			ID:   uuid.New(),
 			Name: "JWT",
 			Slug: "jwt",
 		},
 		{
-			ID: uuid.New(),
+			ID:   uuid.New(),
 			Name: "SQL",
 			Slug: "sql",
 		},
@@ -62,13 +67,25 @@ func main() {
 	//---------------------------------
 
 	var goTrack models.Track
-	db.Where("slug = ?", "go").First(&goTrack)
+
+	db.Where(
+		"slug = ?",
+		"go",
+	).First(&goTrack)
 
 	var jwtTrack models.Track
-	db.Where("slug = ?", "jwt").First(&jwtTrack)
+
+	db.Where(
+		"slug = ?",
+		"jwt",
+	).First(&jwtTrack)
 
 	var redisTrack models.Track
-	db.Where("slug = ?", "redis").First(&redisTrack)
+
+	db.Where(
+		"slug = ?",
+		"redis",
+	).First(&redisTrack)
 
 	//---------------------------------
 	// Practices
@@ -77,43 +94,43 @@ func main() {
 	practices := []models.Practice{
 
 		{
-			Title: "Go Variables",
-			Slug: "go-variables",
-			Description: "Learn Go variable declaration.",
-			Difficulty: "Easy",
+			Title:           "Go Variables",
+			Slug:            "go-variables",
+			Description:     "Learn Go variable declaration.",
+			Difficulty:      "Easy",
 			EstimatedMinutes: 10,
-			XPReward: 50,
-			TrackID: goTrack.ID,
+			XPReward:        50,
+			TrackID:         goTrack.ID,
 		},
 
 		{
-			Title: "Go Pointer",
-			Slug: "go-pointer",
-			Description: "Understanding pointers.",
-			Difficulty: "Medium",
+			Title:           "Go Pointer",
+			Slug:            "go-pointer",
+			Description:     "Understanding pointers.",
+			Difficulty:      "Medium",
 			EstimatedMinutes: 20,
-			XPReward: 100,
-			TrackID: goTrack.ID,
+			XPReward:        100,
+			TrackID:          goTrack.ID,
 		},
 
 		{
-			Title: "JWT Authentication",
-			Slug: "jwt-authentication",
-			Description: "Learn JWT authentication.",
-			Difficulty: "Medium",
+			Title:           "JWT Authentication",
+			Slug:            "jwt-authentication",
+			Description:     "Learn JWT authentication.",
+			Difficulty:      "Medium",
 			EstimatedMinutes: 25,
-			XPReward: 120,
-			TrackID: jwtTrack.ID,
+			XPReward:        120,
+			TrackID:          jwtTrack.ID,
 		},
 
 		{
-			Title: "Redis Cache",
-			Slug: "redis-cache",
-			Description: "Implement Redis caching.",
-			Difficulty: "Hard",
+			Title:           "Redis Cache",
+			Slug:            "redis-cache",
+			Description:     "Implement Redis caching.",
+			Difficulty:      "Hard",
 			EstimatedMinutes: 30,
-			XPReward: 180,
-			TrackID: redisTrack.ID,
+			XPReward:        180,
+			TrackID:          redisTrack.ID,
 		},
 	}
 
