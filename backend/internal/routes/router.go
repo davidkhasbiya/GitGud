@@ -23,6 +23,14 @@ func SetupRouter() *gin.Engine {
 	router.Use(middleware.LoggerMiddleware())
 	router.Use(middleware.CORSMiddleware())
 
+	// ROOT
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "GitGud API is running",
+			"status":  "ok",
+		})
+	})
+
 	// =========================================================
 	// HEALTH
 	// =========================================================
