@@ -13,6 +13,7 @@ func CORSMiddleware() gin.HandlerFunc {
 
 		AllowOrigins: []string{
 			"http://localhost:5173",
+			"https://gitgud-dev.vercel.app",
 		},
 
 		AllowMethods: []string{
@@ -28,6 +29,7 @@ func CORSMiddleware() gin.HandlerFunc {
 			"Origin",
 			"Authorization",
 			"Content-Type",
+			"Accept",
 		},
 
 		ExposeHeaders: []string{
