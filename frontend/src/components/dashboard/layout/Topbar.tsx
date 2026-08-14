@@ -38,31 +38,22 @@ export default function Topbar() {
         const userId = user?.id;
 
         if (!userId) {
-
             setDashboard(null);
-
             return;
         }
 
-        async function loadDashboard() {
-
+        const loadDashboard = async () => {
             try {
-
-                const data =
-                    await getDashboard(userId);
-
+                const data = await getDashboard(userId);
                 setDashboard(data);
-
             } catch (error) {
-
                 console.error(
                     "Failed to load dashboard data:",
                     error
                 );
-
                 setDashboard(null);
             }
-        }
+        };
 
         loadDashboard();
 

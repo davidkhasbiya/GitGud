@@ -1,6 +1,5 @@
 import {
-    ArrowRight,
-    Trophy,
+    ArrowRight
 } from "lucide-react";
 
 interface PracticeHistoryItem {

@@ -18,6 +18,8 @@ export interface PracticeQuestion {
     optionC?: string;
     optionD?: string;
 
+    correctAnswer?: string;
+
     starterCode?: string;
 
     explanation?: string;
@@ -42,4 +44,52 @@ export interface Practice {
     track: Track;
 
     questions: PracticeQuestion[];
+}
+
+/*
+ * Legacy challenge structure.
+ * Dipertahankan supaya file data lama tetap bisa di-compile.
+ */
+export interface ChallengeLesson {
+    id: string;
+    title: string;
+    description: string;
+    duration: number;
+    status: "completed" | "current" | "locked";
+}
+
+export interface Challenge {
+    id: string;
+
+    slug: string;
+
+    title: string;
+
+    description: string;
+
+    difficulty: string;
+
+    category: string;
+
+    technologies: string[];
+
+    estimatedMinutes: number;
+
+    xp: number;
+
+    gems: number;
+
+    progress: number;
+
+    completedLessons: number;
+
+    totalLessons: number;
+
+    locked: boolean;
+
+    prerequisites: string[];
+
+    objectives: string[];
+
+    lessons: ChallengeLesson[];
 }

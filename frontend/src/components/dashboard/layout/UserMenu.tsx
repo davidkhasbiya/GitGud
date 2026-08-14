@@ -44,43 +44,27 @@ export default function UserMenu() {
         useState<DashboardData | null>(null);
 
     useEffect(() => {
-
-        const userId = user?.id;
-
-        if (!userId) return;
-
-        async function loadUserData() {
-
+        if (!user?.id) return;
+        const userId: string = user.id;
+        const loadUserData = async () => {
             try {
-
                 const [
                     profileData,
                     dashboardData,
                 ] = await Promise.all([
-
                     getProfile(userId),
-
                     getDashboard(userId),
-
                 ]);
-
                 setProfile(profileData);
-
                 setDashboard(dashboardData);
-
             } catch (err) {
-
                 console.error(
                     "Failed to load user menu data:",
                     err,
                 );
-
             }
-
-        }
-
+        };
         loadUserData();
-
     }, [user?.id]);
 
     const handleLogout = () => {

@@ -21,6 +21,13 @@ export interface AIInsight {
     recommendation: string;
 }
 
+export interface ProgressStats {
+    totalPractice: number;
+    averageScore: number;
+    xp: number;
+    streak: number;
+}
+
 export interface ProgressResponse {
     level: number;
 
@@ -38,7 +45,6 @@ export interface ProgressResponse {
 
     totalWrong: number;
 
-    // TAMBAHKAN INI
     streak: number;
 
     weeklyActivity: WeeklyActivity[];

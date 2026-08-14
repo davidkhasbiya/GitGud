@@ -66,15 +66,11 @@ export default function ProgressStats({
                         />
 
                         <p className="mt-4 text-sm text-zinc-500">
-
                             {item.title}
-
                         </p>
 
                         <h2 className="mt-2 text-3xl font-bold">
-
                             {item.value}
-
                         </h2>
 
                     </div>
@@ -86,5 +82,4 @@ export default function ProgressStats({
         </section>
 
     );
-
 }
