@@ -1,49 +1,13 @@
-import axios from "axios";
-
-const API = "http://localhost:8080/api/v1";
-
-export interface RecentPractice {
-    title: string;
-    score: number;
-    xpEarned: number;
-    createdAt: string;
-}
-
-export interface Profile {
-    id: string;
-
-    name: string;
-
-    email: string;
-
-    level: number;
-
-    xp: number;
-
-    accuracy: number;
-
-    completedPractice: number;
-
-    joinedAt: string;
-
-    recent: RecentPractice[];
-}
+import api from "../api/axios";
+import type { Profile } from "../types/profile";
 
 export async function getProfile(
-    userId: string
+    userId: string,
 ): Promise<Profile> {
 
-    const token = localStorage.getItem("token");
-
-    const res = await axios.get(
-        `${API}/profile/${userId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
+    const { data } = await api.get(
+        `/profile/${userId}`,
     );
 
-    return res.data;
-
+    return data;
 }

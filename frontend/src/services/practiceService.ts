@@ -1,27 +1,22 @@
-import axios from "axios";
-
+import api from "../api/axios";
 import type { Practice } from "../types/practice";
-
-const API = "http://localhost:8080/api/v1";
 
 export async function getPractices(): Promise<Practice[]> {
 
-    const res = await axios.get(
-        `${API}/practices`
+    const { data } = await api.get(
+        "/practices",
     );
 
-    return res.data;
-
+    return data;
 }
 
 export async function getPractice(
     slug: string,
 ): Promise<Practice> {
 
-    const res = await axios.get(
-        `${API}/practices/${slug}`,
+    const { data } = await api.get(
+        `/practices/${slug}`,
     );
 
-    return res.data;
-
+    return data;
 }

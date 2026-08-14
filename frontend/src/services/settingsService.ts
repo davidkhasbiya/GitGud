@@ -1,50 +1,27 @@
-import axios from "axios";
+import api from "../api/axios";
 
-const API = "http://localhost:8080/api/v1";
-
-export interface UpdateProfileRequest {
-    name: string;
-}
-
-export interface ChangePasswordRequest {
-    userId: string;
-    oldPassword: string;
-    newPassword: string;
-}
+import type {
+    UpdateProfileRequest,
+    ChangePasswordRequest,
+} from "../types/settings";
 
 export async function updateProfile(
     userId: string,
-    data: UpdateProfileRequest
+    data: UpdateProfileRequest,
 ) {
 
-    const token = localStorage.getItem("token");
-
-    return axios.put(
-        `${API}/settings/profile/${userId}`,
+    return api.put(
+        `/settings/profile/${userId}`,
         data,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
     );
-
 }
 
 export async function changePassword(
-    data: ChangePasswordRequest
+    data: ChangePasswordRequest,
 ) {
 
-    const token = localStorage.getItem("token");
-
-    return axios.put(
-        `${API}/settings/password`,
+    return api.put(
+        "/settings/password",
         data,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        }
     );
-
 }

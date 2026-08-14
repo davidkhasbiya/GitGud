@@ -8,10 +8,9 @@ import {
     AccountInformation,
 } from "../../components/profile";
 
-import {
-    getProfile,
-    type Profile,
-} from "../../services/profileService";
+import { getProfile } from "../../services/profileService";
+
+import type { Profile } from "../../types/profile";
 
 export default function ProfilePage() {
 
